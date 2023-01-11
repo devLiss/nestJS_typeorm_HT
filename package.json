@@ -20,10 +20,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand",
 
-    //"typeorm": "typeorm-ts-node-esm -d ./src/config/db.config.ts",
-    "migration:generate": "npm run typeorm -- migration:generate",
-    "migration:run": "npm run typeorm -- migration:run",
-    "migration:revert": "npm run typeorm -- migration:revert"
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js -d ./src/db/torm.config.ts",
+    "db:generate": "npm run typeorm migration:generate ./src/db/migrations/migration",
+    "db:migrate": "npm run typeorm migration:run"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.8.1",
