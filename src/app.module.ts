@@ -109,6 +109,8 @@ import { RecoveryData } from './features/entities/entities/RecoveryData.entity';
 import { Posts } from './features/entities/entities/Post.entity';
 import { Sessions } from './features/entities/entities/Session.entity';
 import { Users } from './features/entities/entities/User.entity';
+import { Question } from './features/entities/entities/Question.entity';
+import { Answer } from './features/entities/entities/Answers.entity';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -228,6 +230,8 @@ const controllers = [
         RecoveryData,
         Sessions,
         Users,
+        Question,
+        Answer,
       ],
       synchronize: true,
     }),

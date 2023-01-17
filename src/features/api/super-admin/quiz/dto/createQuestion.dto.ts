@@ -1,4 +1,4 @@
 export class CreateQuestionDto {
   body: string;
-  correctAnswers;
+  correctAnswers: Array<string>;
 }

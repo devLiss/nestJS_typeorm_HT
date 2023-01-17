@@ -18,7 +18,6 @@ export class PaginatingQueryDto {
   @IsOptional()
   public sortBy = 'createdAt';
 
-  @Transform(({ value }) => transformSortDirection(value))
   @IsOptional()
   @IsString()
   public sortDirection = 'desc';
