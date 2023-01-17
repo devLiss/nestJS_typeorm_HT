@@ -229,7 +229,7 @@ const controllers = [
         Sessions,
         Users,
       ],
-      synchronize: false,
+      synchronize: true,
     }),
     EmailModule,
   ],

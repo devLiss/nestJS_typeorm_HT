@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Users } from './User.entity';
 
-@Entity()
+@Entity('appBan')
 export class AppBan {
   @PrimaryGeneratedColumn('uuid')
   id: number;
@@ -18,6 +18,6 @@ export class AppBan {
   @Column({ type: 'uuid' })
   userId: string;
 
-  @ManyToOne(() => Users, (user) => user.id)
+  @ManyToOne(() => Users, (user) => user.id, { onDelete: 'CASCADE' })
   user: Users;
 }

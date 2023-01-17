@@ -25,9 +25,9 @@ export class Comments {
   @Column({ type: 'uuid' })
   userId: string;
 
-  @ManyToOne(() => Posts, (post) => post.id)
+  @ManyToOne(() => Posts, (post) => post.id, { onDelete: 'CASCADE' })
   post: Posts;
 
-  @ManyToOne(() => Users, (user) => user.id)
+  @ManyToOne(() => Users, (user) => user.id, { onDelete: 'CASCADE' })
   user: Users;
 }

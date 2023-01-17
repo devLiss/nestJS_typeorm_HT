@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Blogs } from './Blogs.entity';
 import { Users } from './User.entity';
 
-@Entity()
+@Entity('blogUserBan')
 export class BlogUserBan {
   @PrimaryGeneratedColumn('uuid')
   id: number;
@@ -25,9 +25,9 @@ export class BlogUserBan {
   @Column({ type: 'uuid' })
   blogId: string;
 
-  @ManyToOne(() => Blogs, (blog) => blog.id)
+  @ManyToOne(() => Blogs, (blog) => blog.id, { onDelete: 'CASCADE' })
   blog: Blogs;
 
-  @ManyToOne(() => Users, (user) => user.id)
+  @ManyToOne(() => Users, (user) => user.id, { onDelete: 'CASCADE' })
   user: Users;
 }

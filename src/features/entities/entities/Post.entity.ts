@@ -29,7 +29,7 @@ export class Posts {
   @Column({ type: 'uuid' })
   blogId: string;
 
-  @ManyToOne(() => Blogs, (blog) => blog.id)
+  @ManyToOne(() => Blogs, (blog) => blog.id, { onDelete: 'CASCADE' })
   blog: Blogs;
 
   @OneToMany(() => Comments, (comment) => comment.postId)
