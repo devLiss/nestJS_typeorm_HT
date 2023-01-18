@@ -76,7 +76,7 @@ export class QuizRepository {
     return this.dataSource
       .createQueryBuilder()
       .update(Question)
-      .set({ published: published })
+      .set({ published: published, updateAt: new Date() })
       .where('id = :id', { id: id })
       .execute();
   }
@@ -85,7 +85,7 @@ export class QuizRepository {
     const updatedQuest = await this.dataSource
       .createQueryBuilder()
       .update(Question)
-      .set({ body: crDto.body })
+      .set({ body: crDto.body, updateAt: new Date() })
       .where('id = :id', { id: id })
       .execute();
 
