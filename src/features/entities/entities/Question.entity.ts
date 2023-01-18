@@ -32,6 +32,8 @@ export class Question {
   })
   public updatedAt: Date;
 
-  @OneToMany(() => Answer, (answer) => answer.questionId)
+  @OneToMany(() => Answer, (answer) => answer.questionId, {
+    onDelete: 'CASCADE',
+  })
   answers: Answer[];
 }

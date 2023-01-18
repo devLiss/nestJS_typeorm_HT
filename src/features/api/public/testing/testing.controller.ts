@@ -27,6 +27,6 @@ export class TestingController {
     await this.userRepo.deleteAll();
     await this.blogRepo.deleteAll();
     await this.postRepo.deleteAll();
-    await this.quizRepo.deleteAll;
+    await this.quizRepo.deleteAll();
   }
 }

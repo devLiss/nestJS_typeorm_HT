@@ -101,12 +101,14 @@ export class QuizRepository {
       .insert()
       .into(Answer)
       .values(answArr)
+      .orIgnore('answer')
       .returning('answer')
       .execute();
     return updatedQuest;
   }
 
   async deleteAll() {
-    return this.dataSource.createQueryBuilder().delete().from(Question);
+    console.log('delte all');
+    return this.dataSource.query(`delete from questions cascade;`);
   }
 }

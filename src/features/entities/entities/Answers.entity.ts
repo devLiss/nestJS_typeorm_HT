@@ -16,6 +16,8 @@ export class Answer extends BaseEntity {
   @Column({ type: 'uuid' })
   questionId: string;
 
-  @ManyToOne(() => Question, (question) => question.id, { cascade: true })
+  @ManyToOne(() => Question, (question) => question.id, {
+    onDelete: 'CASCADE',
+  })
   question: Question;
 }
