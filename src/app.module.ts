@@ -111,6 +111,10 @@ import { Sessions } from './features/entities/entities/Session.entity';
 import { Users } from './features/entities/entities/User.entity';
 import { Question } from './features/entities/entities/Question.entity';
 import { Answer } from './features/entities/entities/Answers.entity';
+import { CreateQuestionHandler } from './features/api/super-admin/quiz/handlers/createQuestion.handler';
+import { QuizRepository } from './features/api/super-admin/quiz/quiz.repository';
+import { QuizController } from './features/api/super-admin/quiz/quiz.controller';
+import { GetAllQuestionsHandler } from './features/api/super-admin/quiz/handlers/getAllQuestions.handler';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -148,6 +152,8 @@ const handlers = [
   UpdateCommentHandler,
   DeleteCommentHandler,
   MakeLikeHandler,
+  CreateQuestionHandler,
+  GetAllQuestionsHandler,
 ];
 const repos = [
   BlogsRepo,
@@ -170,6 +176,7 @@ const sqlRepos = [
   CommentsSqlRepository,
   BlogBannedUsersSqlRepository,
   LikesSqlRepository,
+  QuizRepository,
 ];
 const services = [
   JwtService,
@@ -190,6 +197,7 @@ const controllers = [
   PostsController,
   CommentsController,
   BloggerUsersController,
+  QuizController,
 ];
 @Module({
   imports: [
