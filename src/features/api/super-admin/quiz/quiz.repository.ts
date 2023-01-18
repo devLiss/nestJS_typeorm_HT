@@ -39,7 +39,7 @@ export class QuizRepository {
       correctAnswers: correctAnswers,
       published: false,
       createdAt: createdQuestion[0].createdAt,
-      updatedAt: createdQuestion[0].updatedAt,
+      updatedAt: null,
     };
   }
 

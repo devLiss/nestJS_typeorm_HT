@@ -83,6 +83,10 @@ import { QuizController } from './features/api/super-admin/quiz/quiz.controller'
 import { GetAllQuestionsHandler } from './features/api/super-admin/quiz/handlers/getAllQuestions.handler';
 import { DeleteQuestionHandler } from './features/api/super-admin/quiz/handlers/deleteQuestion.handler';
 import { PublishQuestionHandler } from './features/api/super-admin/quiz/handlers/publishQuestion.handler';
+import {
+  UpdateQuestionCommand,
+  UpdateQuestionHandler,
+} from './features/api/super-admin/quiz/handlers/updateQuestion.handler';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -124,6 +128,7 @@ const handlers = [
   GetAllQuestionsHandler,
   DeleteQuestionHandler,
   PublishQuestionHandler,
+  UpdateQuestionHandler,
 ];
 const repos = [];
 const sqlRepos = [
