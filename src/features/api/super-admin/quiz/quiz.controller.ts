@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -35,16 +37,19 @@ export class QuizController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   delete(@Param('id') id: string) {
     return this.commandBus.execute(new DeleteQuestionCommand(id));
   }
 
   @Put(':id')
+  @HttpCode(204)
   update(@Param('id') id: string, @Body() cqDto: CreateQuestionDto) {
     return this.commandBus.execute(new UpdateQuestionCommand(id, cqDto));
   }
 
   @Put(':id/publish')
+  @HttpCode(204)
   publish(@Param('id') id: string, @Body('published') published: boolean) {
     return this.commandBus.execute(new PublishQuestionCommand(id, published));
   }

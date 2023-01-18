@@ -35,27 +35,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
-    /*MailerModule.forRoot({
-    transport:{
-    host:process.env.SMTP_HOST,
-    port:process.env.SMTP_PORT,
-    secure:true,
-    auth:{
-      user:process.env.SMTP_USER,
-      pass:process.env.SMTP_PASSWORD
-    }
-  },
-    defaults:{
-      from:'"Devliss" <devliss158@gmail.com>'
-    },
-    template: {
-      dir: join(__dirname, 'templates'),//__dirname + '/templates',
-      adapter: new HandlebarsAdapter(),
-      /*options: {
-        strict: true,
-      },
-    },
-  })*/
   ],
   controllers: [],
   providers: [EmailService],
