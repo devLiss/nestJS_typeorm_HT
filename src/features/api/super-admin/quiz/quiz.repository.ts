@@ -63,6 +63,14 @@ export class QuizRepository {
     };
   }
 
+  async getOne(id: string) {
+    return await this.dataSource
+      .createQueryBuilder()
+      .select('*')
+      .from(Question, 'q')
+      .where('q.id = :id', { id: id })
+      .getRawOne();
+  }
   async delete(id: string) {
     return this.dataSource
       .createQueryBuilder()
