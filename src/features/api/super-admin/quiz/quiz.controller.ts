@@ -20,6 +20,7 @@ import { GetAllQuestionsQuery } from './handlers/getAllQuestions.handler';
 import { DeleteQuestionCommand } from './handlers/deleteQuestion.handler';
 import { PublishQuestionCommand } from './handlers/publishQuestion.handler';
 import { UpdateQuestionCommand } from './handlers/updateQuestion.handler';
+import { PublishedDto } from './published.dto';
 
 @UseGuards(BasicAuthGuard)
 @Controller('sa/quiz/questions')
@@ -50,7 +51,9 @@ export class QuizController {
 
   @Put(':id/publish')
   @HttpCode(204)
-  publish(@Param('id') id: string, @Body('published') published: boolean) {
-    return this.commandBus.execute(new PublishQuestionCommand(id, published));
+  publish(@Param('id') id: string, @Body() pDto: PublishedDto) {
+    return this.commandBus.execute(
+      new PublishQuestionCommand(id, pDto.published),
+    );
   }
 }
