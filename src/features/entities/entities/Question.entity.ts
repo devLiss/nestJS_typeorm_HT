@@ -25,8 +25,13 @@ export class Question {
   })
   public createdAt: Date;
 
-  @UpdateDateColumn({
+  /*@UpdateDateColumn({
     type: 'timestamp with time zone',
+    onUpdate: 'CURRENT_TIMESTAMP()',
+  })*/
+  @Column({
+    type: 'timestamp with time zone',
+    default: null,
     onUpdate: 'CURRENT_TIMESTAMP()',
   })
   public updatedAt: Date;
