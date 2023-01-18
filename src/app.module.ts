@@ -167,16 +167,6 @@ const controllers = [
       ttl: 10,
       limit: 5,
     }),*/
-    /*MongooseModule.forRoot(process.env.mongoURI),
-    MongooseModule.forFeature([{ name: Blog.name, schema: BlogSchema }]),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
-    MongooseModule.forFeature([{ name: Like.name, schema: LikeSchema }]),
-    MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
-    MongooseModule.forFeature([{ name: Session.name, schema: SessionSchema }]),
-    MongooseModule.forFeature([
-      { name: BlogBannedUsers.name, schema: BlogBannedUsersSchema },
-    ]),*/
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
