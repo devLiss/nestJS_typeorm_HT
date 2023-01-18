@@ -105,4 +105,8 @@ export class QuizRepository {
       .execute();
     return updatedQuest;
   }
+
+  async deleteAll() {
+    return this.dataSource.createQueryBuilder().delete().from(Question);
+  }
 }
