@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Put,
   Query,
@@ -14,6 +15,9 @@ import { CreateQuestionCommand } from './handlers/createQuestion.handler';
 import { CreateQuestionDto } from './dto/createQuestion.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetAllQuestionsQuery } from './handlers/getAllQuestions.handler';
+import { DeleteQuestionCommand } from './handlers/deleteQuestion.handler';
+import { PublishQuestionCommand } from './handlers/publishQuestion.handler';
+import { UpdateQuestionCommand } from './handlers/updateQuestion.handler';
 
 @UseGuards(BasicAuthGuard)
 @Controller('sa/quiz/questions')
@@ -31,11 +35,17 @@ export class QuizController {
   }
 
   @Delete(':id')
-  delete() {}
+  delete(@Param('id') id: string) {
+    return this.commandBus.execute(new DeleteQuestionCommand(id));
+  }
 
   @Put(':id')
-  update() {}
+  update(@Param('id') id: string, @Body() cqDto: CreateQuestionDto) {
+    return this.commandBus.execute(new UpdateQuestionCommand(id, cqDto));
+  }
 
   @Put(':id/publish')
-  publish() {}
+  publish(@Param('id') id: string, @Body('published') published: boolean) {
+    return this.commandBus.execute(new PublishQuestionCommand(id, published));
+  }
 }

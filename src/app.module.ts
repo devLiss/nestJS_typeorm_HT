@@ -115,6 +115,8 @@ import { CreateQuestionHandler } from './features/api/super-admin/quiz/handlers/
 import { QuizRepository } from './features/api/super-admin/quiz/quiz.repository';
 import { QuizController } from './features/api/super-admin/quiz/quiz.controller';
 import { GetAllQuestionsHandler } from './features/api/super-admin/quiz/handlers/getAllQuestions.handler';
+import { DeleteQuestionHandler } from './features/api/super-admin/quiz/handlers/deleteQuestion.handler';
+import { PublishQuestionHandler } from './features/api/super-admin/quiz/handlers/publishQuestion.handler';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -154,6 +156,8 @@ const handlers = [
   MakeLikeHandler,
   CreateQuestionHandler,
   GetAllQuestionsHandler,
+  DeleteQuestionHandler,
+  PublishQuestionHandler,
 ];
 const repos = [
   BlogsRepo,

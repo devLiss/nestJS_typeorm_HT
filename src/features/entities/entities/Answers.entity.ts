@@ -16,6 +16,6 @@ export class Answer extends BaseEntity {
   @Column({ type: 'uuid' })
   questionId: string;
 
-  @ManyToOne(() => Question, (question) => question.id)
+  @ManyToOne(() => Question, (question) => question.id, { cascade: true })
   question: Question;
 }
