@@ -1,5 +1,4 @@
 import { BlogInputModelDto } from '../../dto/blogInputModel.dto';
-import { BlogsRepo } from '../../../../../entities/mongo/blogs/infrastructure/blog.repository';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BlogsSqlRepository } from '../../../../../entities/postgres/blogsSql.repository';
 
@@ -9,10 +8,7 @@ export class CreateBlogCommand {
 
 @CommandHandler(CreateBlogCommand)
 export class CreateBlogUseCase implements ICommandHandler<CreateBlogCommand> {
-  constructor(
-    private blogsRepo: BlogsRepo,
-    private blogSqlRepo: BlogsSqlRepository,
-  ) {}
+  constructor(private blogSqlRepo: BlogsSqlRepository) {}
   async execute(command: CreateBlogCommand) {
     const blog = {
       name: command.inputModel.name,

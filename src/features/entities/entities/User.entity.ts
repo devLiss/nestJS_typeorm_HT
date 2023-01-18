@@ -2,7 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Sessions } from './Session.entity';
 import { AppBan } from './AppBan.entity';
 import { EmailConfirmation } from './EmailConfirmation.entity';
-import { Recovery } from '../mongo/user/entities/recovery.schema';
 import { RecoveryData } from './RecoveryData.entity';
 import { Likes } from './Like.entity';
 import { BlogUserBan } from './BlogUserBan.entity';

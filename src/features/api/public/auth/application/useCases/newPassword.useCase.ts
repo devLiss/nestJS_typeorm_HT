@@ -1,8 +1,5 @@
 import { NewPasswordDto } from '../../dto/newPassword.dto';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserQueryRepository } from '../../../../../entities/mongo/user/infrastructure/user-query.repository';
-import { UserRepository } from '../../../../../entities/mongo/user/infrastructure/user.repository';
-import { EmailService } from '../../../../../../emailManager/email.service';
 import { UsersService } from '../../../../super-admin/users/application/users.service';
 import { UserSqlRepository } from '../../../../../entities/postgres/userSql.repository';
 

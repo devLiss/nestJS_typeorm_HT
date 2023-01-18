@@ -1,18 +1,10 @@
-import { PostsRepository } from '../../../../entities/mongo/post/infrastructure/posts.repository';
 import { Injectable } from '@nestjs/common';
-import { LikesRepository } from '../../../../entities/mongo/comment/infrastucture/likes.repository';
 import * as mongoose from 'mongoose';
 @Injectable()
 export class PostsService {
-  constructor(
-    protected postRepo: PostsRepository,
-    private likeRepo: LikesRepository,
-  ) {}
+  constructor() {}
 
-  async deleteAllPosts() {
-    return await this.postRepo.deleteAll();
-  }
-  async makeLike(postId: string, user: any, status: string) {
+  /*async makeLike(postId: string, user: any, status: string) {
     console.log('Make like for post! -->', postId);
     console.log(status);
     const postIdDb = postId;
@@ -47,5 +39,5 @@ export class PostsService {
       like = await this.likeRepo.createPostLike(likeInfo);
     }
     return like;
-  }
+  }*/
 }

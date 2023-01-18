@@ -1,10 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BloggerBanUserDto } from '../../../blogs/dto/bloggerBanUser.dto';
-import { BlogQueryRepository } from '../../../../../entities/mongo/blogs/infrastructure/blog-query.repository';
-import { UserQueryRepository } from '../../../../../entities/mongo/user/infrastructure/user-query.repository';
-import { BannedUser } from '../../../../../entities/mongo/blogs/entities/bannedUsers.schema';
-import { BannedUsersQueryRepo } from '../../../../../entities/mongo/blogs/infrastructure/bannedUsers.query-repo';
-import { BadRequestException } from '@nestjs/common';
 import { BlogBannedUsersSqlRepository } from '../../../../../entities/postgres/blogBannedUsersSql.repository';
 import { BlogsSqlRepository } from '../../../../../entities/postgres/blogsSql.repository';
 import { UserSqlRepository } from '../../../../../entities/postgres/userSql.repository';

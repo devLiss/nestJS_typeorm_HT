@@ -13,7 +13,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from '../application/users.service';
-import { UserQueryRepository } from '../../../../entities/mongo/user/infrastructure/user-query.repository';
 import { UserQueryDto } from '../dto/userQuery.dto';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { BasicAuthGuard } from '../../../../../common/guards/basicAuth.guard';
@@ -30,7 +29,6 @@ import { UserSqlRepository } from '../../../../entities/postgres/userSql.reposit
 export class UsersController {
   constructor(
     protected userService: UsersService,
-    protected userQueryRepo: UserQueryRepository,
     protected userSqlRepo: UserSqlRepository,
     private commandBus: CommandBus,
   ) {}

@@ -5,7 +5,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { BlogQueryRepository } from '../../features/entities/mongo/blogs/infrastructure/blog-query.repository';
 import { BlogsSqlRepository } from '../../features/entities/postgres/blogsSql.repository';
 @Injectable()
 export class CheckBlogInBodyGuard implements CanActivate {

@@ -1,8 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BanDto } from '../../dto/ban.dto';
-import { UserRepository } from '../../../../../entities/mongo/user/infrastructure/user.repository';
-import { UserQueryRepository } from '../../../../../entities/mongo/user/infrastructure/user-query.repository';
-import { CommentsRepository } from '../../../../../entities/mongo/comment/infrastucture/comments.repository';
 import { SessionsService } from '../../../../public/sessions/application/sessions.service';
 import { UserSqlRepository } from '../../../../../entities/postgres/userSql.repository';
 
@@ -12,10 +9,7 @@ export class BanUserCommand {
 @CommandHandler(BanUserCommand)
 export class BanUserUseCase implements ICommandHandler<BanUserCommand> {
   constructor(
-    // private userRepo: UserRepository,
-    //private userQueryRepo: UserQueryRepository,
     private userRepo: UserSqlRepository,
-    private commentRepo: CommentsRepository,
     private sessionService: SessionsService,
   ) {}
 

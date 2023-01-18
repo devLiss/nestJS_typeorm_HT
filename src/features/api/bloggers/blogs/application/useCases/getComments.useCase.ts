@@ -1,6 +1,5 @@
 import { PaginatingQueryDto } from '../../dto/paginatingQuery.dto';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CommentsQueryRepository } from '../../../../../entities/mongo/comment/infrastucture/comments-query.repository';
 import { CommentsSqlRepository } from '../../../../../entities/postgres/commentsSql.repository';
 
 export class GetCommentsCommand {

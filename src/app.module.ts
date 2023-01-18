@@ -1,55 +1,26 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
+
 import * as mongoose from 'mongoose';
 import { EmailModule } from './emailManager/emailModule';
-import { BlogQueryRepository } from './features/entities/mongo/blogs/infrastructure/blog-query.repository';
-import {
-  Blog,
-  BlogSchema,
-} from './features/entities/mongo/blogs/entities/blogs.schema';
+
 import { JwtService } from './features/api/public/sessions/application/jwt.service';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { BlogsController } from './features/api/bloggers/blogs/api/blogs.controller';
-import { BlogsRepo } from './features/entities/mongo/blogs/infrastructure/blog.repository';
+
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateBlogUseCase } from './features/api/bloggers/blogs/application/useCases/createBlog.useCase';
-import { UserQueryRepository } from './features/entities/mongo/user/infrastructure/user-query.repository';
-import { UserRepository } from './features/entities/mongo/user/infrastructure/user.repository';
+
 import { UsersService } from './features/api/super-admin/users/application/users.service';
 import { CommentsService } from './features/api/public/comments/application/comments.service';
-import { CommentsQueryRepository } from './features/entities/mongo/comment/infrastucture/comments-query.repository';
-import { CommentsRepository } from './features/entities/mongo/comment/infrastucture/comments.repository';
-import { LikesRepository } from './features/entities/mongo/comment/infrastucture/likes.repository';
+
 import { RegisterUseCase } from './features/api/public/auth/application/useCases/register.useCase';
-import {
-  User,
-  UserSchema,
-} from './features/entities/mongo/user/entities/user.schema';
-import {
-  Comment,
-  CommentSchema,
-} from './features/entities/mongo/comment/entities/comments.schema';
-import {
-  Like,
-  LikeSchema,
-} from './features/entities/mongo/comment/entities/likes.schema';
+
 import { AuthController } from './features/api/public/auth/api/auth.controller';
 import { LoginUseCase } from './features/api/public/auth/application/useCases/login.useCase';
-import { SessionRepository } from './features/entities/mongo/session/infrastructure/session.repository';
-import { PostsRepository } from './features/entities/mongo/post/infrastructure/posts.repository';
-import { PostsQueryRepository } from './features/entities/mongo/post/infrastructure/posts-query.repository';
 import { BlogIdValidation } from './common/validators/BlogIdValidation';
 import { PostsService } from './features/api/public/posts/application/posts.service';
-import {
-  Post,
-  PostSchema,
-} from './features/entities/mongo/post/entities/posts.schema';
-import {
-  Session,
-  SessionSchema,
-} from './features/entities/mongo/session/entities/session.schema';
 import { PasswordRecoveryUseCase } from './features/api/public/auth/application/useCases/passwordRecovery.useCase';
 import { NewPasswordUseCase } from './features/api/public/auth/application/useCases/newPassword.useCase';
 import { RefreshTokenUseCase } from './features/api/public/auth/application/useCases/refreshToken.useCase';
@@ -78,11 +49,6 @@ import { PostsController } from './features/api/public/posts/api/posts.controlle
 import { CommentsController } from './features/api/public/comments/api/comments.controller';
 import { BanUser } from './features/api/bloggers/users/application/useCases/banUser.useCase';
 import { BloggerUsersController } from './features/api/bloggers/users/api/users.controller';
-import {
-  BlogBannedUsers,
-  BlogBannedUsersSchema,
-} from './features/entities/mongo/blogs/entities/blogBannedUsers.schema';
-import { BannedUsersQueryRepo } from './features/entities/mongo/blogs/infrastructure/bannedUsers.query-repo';
 import { GetBannedUsersForBlogsUseCase } from './features/api/bloggers/users/application/useCases/getBannedUsersForBlogs.useCase';
 import { GetCommentsUseCase } from './features/api/bloggers/blogs/application/useCases/getComments.useCase';
 import { BanBlogUseCase } from './features/api/super-admin/blogs/application/useCases/banBlog.useCase';
@@ -159,19 +125,7 @@ const handlers = [
   DeleteQuestionHandler,
   PublishQuestionHandler,
 ];
-const repos = [
-  BlogsRepo,
-  BlogQueryRepository,
-  PostsRepository,
-  PostsQueryRepository,
-  UserQueryRepository,
-  UserRepository,
-  CommentsRepository,
-  CommentsQueryRepository,
-  LikesRepository,
-  SessionRepository,
-  BannedUsersQueryRepo,
-];
+const repos = [];
 const sqlRepos = [
   UserSqlRepository,
   SessionsSqlRepository,
@@ -213,7 +167,7 @@ const controllers = [
       ttl: 10,
       limit: 5,
     }),*/
-    MongooseModule.forRoot(process.env.mongoURI),
+    /*MongooseModule.forRoot(process.env.mongoURI),
     MongooseModule.forFeature([{ name: Blog.name, schema: BlogSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
@@ -222,7 +176,7 @@ const controllers = [
     MongooseModule.forFeature([{ name: Session.name, schema: SessionSchema }]),
     MongooseModule.forFeature([
       { name: BlogBannedUsers.name, schema: BlogBannedUsersSchema },
-    ]),
+    ]),*/
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,

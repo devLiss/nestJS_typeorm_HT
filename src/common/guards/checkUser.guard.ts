@@ -4,7 +4,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UserQueryRepository } from '../../features/entities/mongo/user/infrastructure/user-query.repository';
 import { UserSqlRepository } from '../../features/entities/postgres/userSql.repository';
 @Injectable()
 export class CheckUserGuard implements CanActivate {

@@ -2,9 +2,8 @@ import {
   ValidationArguments,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { UserQueryRepository } from '../../features/entities/mongo/user/infrastructure/user-query.repository';
-export class ConfirmCodeValidator implements ValidatorConstraintInterface {
-  constructor(private userQueryRepo: UserQueryRepository) {}
+export class ConfirmCodeValidator {
+  /*constructor(private userQueryRepo: UserQueryRepository) {}
 
   defaultMessage(validationArguments?: ValidationArguments): string {
     return 'Code is incorrect or expired';
@@ -28,5 +27,5 @@ export class ConfirmCodeValidator implements ValidatorConstraintInterface {
       return false;
     }
     return true;
-  }
+  }*/
 }

@@ -6,10 +6,8 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import { BlogQueryRepository } from '../../../entities/mongo/blogs/infrastructure/blog-query.repository';
 import { BlogQueryDto } from './dto/blogQuery.dto';
 import { PostsService } from '../posts/application/posts.service';
-import { PostsQueryRepository } from '../../../entities/mongo/post/infrastructure/posts-query.repository';
 import { Request } from 'express';
 import { JwtService } from '../sessions/application/jwt.service';
 import { BlogsSqlRepository } from '../../../entities/postgres/blogsSql.repository';
@@ -21,7 +19,6 @@ export class PublicBlogsController {
   constructor(
     //protected blogQueryRepo: BlogQueryRepository,
     private postCUService: PostsService,
-    private postsQueryRepo: PostsQueryRepository,
     private jwtService: JwtService,
     private userQueryRepo: UserSqlRepository,
     //private blogRepo: BlogsSqlRepository,

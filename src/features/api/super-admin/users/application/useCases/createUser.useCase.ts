@@ -1,7 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { UsersService } from '../users.service';
-import { UserRepository } from '../../../../../entities/mongo/user/infrastructure/user.repository';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import add from 'date-fns/add';
@@ -15,7 +14,6 @@ export class CreateUserCommand {
 export class CreateUserUseCase implements ICommandHandler<CreateUserCommand> {
   constructor(
     private userService: UsersService,
-    private userRepo: UserRepository,
     private userSqlRepo: UserSqlRepository,
   ) {}
 

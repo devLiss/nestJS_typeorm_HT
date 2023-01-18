@@ -1,5 +1,4 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserRepository } from '../../../../../entities/mongo/user/infrastructure/user.repository';
 import { UserSqlRepository } from '../../../../../entities/postgres/userSql.repository';
 
 export class DeleteUserCommand {

@@ -1,7 +1,4 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { SessionRepository } from '../../../../entities/mongo/session/infrastructure/session.repository';
-import { JwtService } from './jwt.service';
-import { v4 as uuidv4 } from 'uuid';
 import { SessionsSqlRepository } from '../../../../entities/postgres/sessionsSql.repository';
 
 @Injectable()

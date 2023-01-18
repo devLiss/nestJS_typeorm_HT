@@ -1,5 +1,4 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserQueryRepository } from '../../../../../entities/mongo/user/infrastructure/user-query.repository';
 import { UserSqlRepository } from '../../../../../entities/postgres/userSql.repository';
 
 export class GetInfo {

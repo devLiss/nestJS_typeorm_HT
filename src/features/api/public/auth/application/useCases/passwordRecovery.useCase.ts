@@ -1,8 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { v4 as uuidv4 } from 'uuid';
 import { add } from 'date-fns';
-import { UserQueryRepository } from '../../../../../entities/mongo/user/infrastructure/user-query.repository';
-import { UserRepository } from '../../../../../entities/mongo/user/infrastructure/user.repository';
 import { EmailService } from '../../../../../../emailManager/email.service';
 import { UserSqlRepository } from '../../../../../entities/postgres/userSql.repository';
 

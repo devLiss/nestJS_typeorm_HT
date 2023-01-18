@@ -4,8 +4,6 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { UserQueryRepository } from '../../features/entities/mongo/user/infrastructure/user-query.repository';
 import { UsersService } from '../../features/api/super-admin/users/application/users.service';
 import { LoginDto } from '../../features/api/public/auth/dto/login.dto';
 import { UserSqlRepository } from '../../features/entities/postgres/userSql.repository';

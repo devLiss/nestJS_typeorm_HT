@@ -1,12 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UnauthorizedException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { JwtService } from '../../../sessions/application/jwt.service';
-import {
-  User,
-  UserDocument,
-} from '../../../../../entities/mongo/user/entities/user.schema';
-import { SessionRepository } from '../../../../../entities/mongo/session/infrastructure/session.repository';
 import { SessionsSqlRepository } from '../../../../../entities/postgres/sessionsSql.repository';
 
 export class LoginCommand {

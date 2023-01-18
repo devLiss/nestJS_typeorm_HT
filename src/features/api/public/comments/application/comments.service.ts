@@ -1,20 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CommentsRepository } from '../../../../entities/mongo/comment/infrastucture/comments.repository';
-import { CommentsQueryRepository } from '../../../../entities/mongo/comment/infrastucture/comments-query.repository';
-import { LikesRepository } from '../../../../entities/mongo/comment/infrastucture/likes.repository';
-import { LikesInfo } from '../../../../entities/mongo/comment/entities/likesInfo.schema';
-import { Like } from '../../../../entities/mongo/comment/entities/likes.schema';
-import * as mongoose from 'mongoose';
 import { CommentsSqlRepository } from '../../../../entities/postgres/commentsSql.repository';
 
 @Injectable()
 export class CommentsService {
-  constructor(
-    protected commentRepo: CommentsRepository,
-    protected commentQueryRepo: CommentsQueryRepository,
-    private likesRepo: LikesRepository,
-    private comRepo: CommentsSqlRepository,
-  ) {}
+  constructor(private comRepo: CommentsSqlRepository) {}
   async createComment(content: string, postId: string, user: any) {
     const newComment = {
       content: content,
@@ -29,22 +18,8 @@ export class CommentsService {
 
     return createdComment;
   }
-  async deleteComment(id: string) {
-    return await this.commentRepo.deleteComment(id);
-  }
-  async updateComment(id: string, content: string) {
-    return await this.commentRepo.updateComment(id, content);
-  }
 
-  /*async updateCommentBanInfo(user) {
-    return this.commentRepo.updateUserInfo(user);
-  }*/
-
-  async deleteAllComments() {
-    return await this.commentRepo.deleteAll();
-  }
-
-  async makeLike(commentId: string, user: any, status: string) {
+  /*async makeLike(commentId: string, user: any, status: string) {
     const commentIdDb = commentId;
     const existedLike = await this.likesRepo.getLikeByCommentIdAndUserId(
       commentId,
@@ -67,5 +42,5 @@ export class CommentsService {
       like = await this.likesRepo.createLike(likeInfo);
     }
     return like;
-  }
+  }*/
 }

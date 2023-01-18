@@ -3,7 +3,6 @@ import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import add from 'date-fns/add';
 import { UsersService } from '../../../../super-admin/users/application/users.service';
-import { UserRepository } from '../../../../../entities/mongo/user/infrastructure/user.repository';
 import { EmailService } from '../../../../../../emailManager/email.service';
 import { CreateUserDto } from '../../../../super-admin/users/dto/create-user.dto';
 import { UserSqlRepository } from '../../../../../entities/postgres/userSql.repository';
