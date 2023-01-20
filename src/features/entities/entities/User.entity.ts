@@ -6,6 +6,7 @@ import { RecoveryData } from './RecoveryData.entity';
 import { Likes } from './Like.entity';
 import { BlogUserBan } from './BlogUserBan.entity';
 import { Comments } from './Comment.entity';
+import { QuizProgress } from './QuizProgress.entity';
 
 @Entity()
 export class Users {
@@ -47,4 +48,7 @@ export class Users {
 
   @OneToMany(() => Comments, (comment) => comment.userId)
   comment: Comments[];
+
+  @OneToMany(() => QuizProgress, (progress) => progress.playerId)
+  progresses: QuizProgress[];
 }

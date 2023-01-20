@@ -87,6 +87,8 @@ import {
   UpdateQuestionCommand,
   UpdateQuestionHandler,
 } from './features/api/super-admin/quiz/handlers/updateQuestion.handler';
+import { QuizPair } from './features/entities/entities/QuizPair.entity';
+import { QuizProgress } from './features/entities/entities/QuizProgress.entity';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -193,6 +195,8 @@ const controllers = [
         Users,
         Question,
         Answer,
+        QuizPair,
+        QuizProgress,
       ],
       synchronize: true,
     }),
