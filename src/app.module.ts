@@ -83,12 +83,13 @@ import { QuizController } from './features/api/super-admin/quiz/quiz.controller'
 import { GetAllQuestionsHandler } from './features/api/super-admin/quiz/handlers/getAllQuestions.handler';
 import { DeleteQuestionHandler } from './features/api/super-admin/quiz/handlers/deleteQuestion.handler';
 import { PublishQuestionHandler } from './features/api/super-admin/quiz/handlers/publishQuestion.handler';
-import {
-  UpdateQuestionCommand,
-  UpdateQuestionHandler,
-} from './features/api/super-admin/quiz/handlers/updateQuestion.handler';
+import { UpdateQuestionHandler } from './features/api/super-admin/quiz/handlers/updateQuestion.handler';
 import { QuizPair } from './features/entities/entities/QuizPair.entity';
 import { QuizProgress } from './features/entities/entities/QuizProgress.entity';
+import { PairQuizGameController } from './features/api/public/pair-quiz-game/pair-quiz-game.controller';
+import { PairQuizGameRepository } from './features/api/public/pair-quiz-game/pair-quiz-game.repository';
+import { ConnectToGameHandler } from './features/api/public/pair-quiz-game/handlers/connectToGame.handler';
+import { SendAnswerHandler } from './features/api/public/pair-quiz-game/handlers/sendAnswer.handler';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -131,6 +132,8 @@ const handlers = [
   DeleteQuestionHandler,
   PublishQuestionHandler,
   UpdateQuestionHandler,
+  ConnectToGameHandler,
+  SendAnswerHandler,
 ];
 const repos = [];
 const sqlRepos = [
@@ -142,6 +145,7 @@ const sqlRepos = [
   BlogBannedUsersSqlRepository,
   LikesSqlRepository,
   QuizRepository,
+  PairQuizGameRepository,
 ];
 const services = [
   JwtService,
@@ -163,6 +167,7 @@ const controllers = [
   CommentsController,
   BloggerUsersController,
   QuizController,
+  PairQuizGameController,
 ];
 @Module({
   imports: [
@@ -212,11 +217,4 @@ const controllers = [
     ...sqlRepos,
   ],
 })
-export class AppModule {
-  /*configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CheckExistingUserMiddleware).forRoutes({
-      path: 'auth/registration',
-      method: RequestMethod.POST,
-    });
-  }*/
-}
+export class AppModule {}
