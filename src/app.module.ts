@@ -90,6 +90,11 @@ import { PairQuizGameController } from './features/api/public/pair-quiz-game/pai
 import { PairQuizGameRepository } from './features/api/public/pair-quiz-game/pair-quiz-game.repository';
 import { ConnectToGameHandler } from './features/api/public/pair-quiz-game/handlers/connectToGame.handler';
 import { SendAnswerHandler } from './features/api/public/pair-quiz-game/handlers/sendAnswer.handler';
+import { GetQuizByIdHandler } from './features/api/public/pair-quiz-game/handlers/getQuizById.handler';
+import {
+  GetCurrentGameHandler,
+  GetCurrentGameQuery,
+} from './features/api/public/pair-quiz-game/handlers/getCurrentGame.handler';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -134,6 +139,8 @@ const handlers = [
   UpdateQuestionHandler,
   ConnectToGameHandler,
   SendAnswerHandler,
+  GetQuizByIdHandler,
+  GetCurrentGameHandler,
 ];
 const repos = [];
 const sqlRepos = [

@@ -1,20 +1,26 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { BearerAuthGuard } from '../../../../common/guards/bearerAuth.guard';
 import { User } from '../../../../common/decorators/user.decorator';
-import { CommandBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ConnectToGameCommand } from './handlers/connectToGame.handler';
 import { SendAnswerCommand } from './handlers/sendAnswer.handler';
+import { GetQuizByIdQuery } from './handlers/getQuizById.handler';
+import { GetCurrentGameQuery } from './handlers/getCurrentGame.handler';
 
 @UseGuards(BearerAuthGuard)
 @Controller('pair-game-quiz/pairs')
 export class PairQuizGameController {
-  constructor(private commandBus: CommandBus) {}
+  constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
   @Get('my-current')
-  async getMyCurrentGame() {}
+  async getMyCurrentGame(@User() user) {
+    return this.queryBus.execute(new GetCurrentGameQuery(user.id));
+  }
 
   @Get(':id')
-  async getGameById(@Param('id') id: string) {}
+  async getGameById(@Param('id') id: string, @User() user) {
+    return this.queryBus.execute(new GetQuizByIdQuery(id, user.id));
+  }
 
   @Post('connection')
   async connectToGame(@User() user) {
