@@ -19,6 +19,9 @@ export class Question {
   @Column({ type: 'boolean', default: false })
   published: boolean;
 
+  @Column({ type: 'text', array: true, default: [] })
+  correctAnswers: string[];
+
   @CreateDateColumn({
     type: 'timestamp with time zone',
     default: () => 'CURRENT_TIMESTAMP()',
@@ -32,8 +35,8 @@ export class Question {
   })
   public updatedAt: Date;
 
-  @OneToMany(() => Answer, (answer) => answer.questionId, {
+  /*@OneToMany(() => Answer, (answer) => answer.questionId, {
     onDelete: 'CASCADE',
   })
-  answers: Answer[];
+  answers: Answer[];*/
 }

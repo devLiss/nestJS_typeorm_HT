@@ -9,12 +9,13 @@ export class QuizRepository {
   constructor(@InjectDataSource() protected dataSource: DataSource) {}
 
   async createQuestion(crDto: CreateQuestionDto) {
-    const createQuestionQuery = `insert into questions (body) values ($1) returning *`;
+    const createQuestionQuery = `insert into questions (body, "correctAnswers") values ($1, $2) returning *`;
     const createdQuestion = await this.dataSource.query(createQuestionQuery, [
       crDto.body,
+      crDto.correctAnswers,
     ]);
 
-    const answArr = crDto.correctAnswers.map((item) => {
+    /*const answArr = crDto.correctAnswers.map((item) => {
       return {
         answer: item,
         questionId: createdQuestion[0].id,
@@ -32,11 +33,11 @@ export class QuizRepository {
     const correctAnswers = [];
     answers.raw.forEach((item) => {
       correctAnswers.push(Object.values(item)[0]);
-    });
+    });*/
     return {
       id: createdQuestion[0].id,
       body: createdQuestion[0].body,
-      correctAnswers: correctAnswers,
+      correctAnswers: createdQuestion[0].correctAnswers,
       published: false,
       createdAt: createdQuestion[0].createdAt,
       updatedAt: createdQuestion[0].updatedAt,

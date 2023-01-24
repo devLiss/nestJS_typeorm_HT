@@ -11,10 +11,37 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
 
   async execute(command: SendAnswerCommand): Promise<any> {
     const currentGame = await this.repo.getCurrentGame(command.userId);
-    //console.log(currentGame);
+    console.log(currentGame.questions.length);
 
-    const check = await this.repo.checkAnswer(currentGame.id, 0);
-    console.log(check);
-    return Promise.resolve(undefined);
+    const currentUserProgress = await this.repo.getProgressForCurrentGame(
+      command.userId,
+      currentGame.id,
+    );
+
+    if (currentGame.questions.length != currentUserProgress) {
+      const check = await this.repo.getCurrentQuestion(
+        currentGame.id,
+        currentUserProgress,
+      );
+      const correctAnswers = await this.repo.getCorrectAnswers(
+        check.questionsId,
+      );
+      let answerStatus = 'Incorrect';
+      if (correctAnswers.correctAnswers.includes(command.answer)) {
+        answerStatus = 'Correct';
+      }
+      const updatedProgress = await this.repo.updateProgress(
+        command.userId,
+        currentGame.id,
+        check.questionsId,
+        answerStatus,
+      );
+
+      return {
+        questionId: updatedProgress.questionId,
+        answerStatus: updatedProgress.answerStatus,
+        addedAt: updatedProgress.addedAt,
+      };
+    }
   }
 }
