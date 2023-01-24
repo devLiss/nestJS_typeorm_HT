@@ -22,7 +22,7 @@ export class PairQuizGameController {
   }
 
   @Post('my-current/answers')
-  async sendAnswer(@Body('answer') answer: string) {
-    return this.commandBus.execute(new SendAnswerCommand(answer));
+  async sendAnswer(@Body('answer') answer: string, @User() user) {
+    return this.commandBus.execute(new SendAnswerCommand(answer, user.id));
   }
 }
