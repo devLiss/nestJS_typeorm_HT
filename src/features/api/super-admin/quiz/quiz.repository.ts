@@ -94,11 +94,15 @@ export class QuizRepository {
     const updatedQuest = await this.dataSource
       .createQueryBuilder()
       .update(Question)
-      .set({ body: crDto.body, updatedAt: new Date() })
+      .set({
+        body: crDto.body,
+        correctAnswers: crDto.correctAnswers,
+        updatedAt: new Date(),
+      })
       .where('id = :id', { id: id })
       .execute();
 
-    const DeleteAnswers = await this.dataSource
+    /*const DeleteAnswers = await this.dataSource
       .createQueryBuilder()
       .delete()
       .from(Answer)
@@ -117,7 +121,7 @@ export class QuizRepository {
       .insert()
       .into(Answer)
       .values(answArr)
-      .execute();
+      .execute();*/
     return updatedQuest;
   }
 

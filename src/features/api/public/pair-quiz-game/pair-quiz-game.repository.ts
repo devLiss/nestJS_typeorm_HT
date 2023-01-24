@@ -15,7 +15,6 @@ export class PairQuizGameRepository {
       ],
     });
   }
-
   async getCurrentGame(userId: string) {
     return this.dataSource.manager.findOne(QuizPair, {
       relations: ['questions'],
@@ -25,7 +24,6 @@ export class PairQuizGameRepository {
       ],
     });
   }
-
   async getProgressForCurrentGame(userId: string, gameId: string) {
     console.log(userId, '  ==> ', gameId);
     return this.dataSource.manager.count(QuizProgress, {
@@ -35,7 +33,6 @@ export class PairQuizGameRepository {
       },
     });
   }
-
   async getCurrentQuestion(gameId: string, nextGameId: number) {
     const offset = nextGameId == 0 ? 0 : nextGameId - 1;
     const currentQuestion = await this.dataSource.query(
@@ -106,6 +103,13 @@ export class PairQuizGameRepository {
     })*/
   }
 
+  async getGameById(gameId: string, userId: string) {
+    return this.dataSource.manager.findOne(QuizPair, {
+      where: {
+        id: gameId,
+      },
+    });
+  }
   async getCurrentGameInfo(gameId: string) {
     const query = `
       select qp.id, qp.status, qp."pairCreatedDate", qp."startGameDate" , qp."finishGameDate", 

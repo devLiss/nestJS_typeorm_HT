@@ -1,5 +1,4 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { QuizRepository } from '../../../super-admin/quiz/quiz.repository';
 import { PairQuizGameRepository } from '../pair-quiz-game.repository';
 import { ForbiddenException } from '@nestjs/common';
 
