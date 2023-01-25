@@ -1,5 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { PairQuizGameRepository } from '../pair-quiz-game.repository';
+import { ForbiddenException } from '@nestjs/common';
 
 export class SendAnswerCommand {
   constructor(public answer: string, public userId: string) {}
@@ -11,8 +12,8 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
 
   async execute(command: SendAnswerCommand): Promise<any> {
     const currentGame = await this.repo.getCurrentGame(command.userId);
-    console.log(currentGame.questions.length);
 
+    if (!currentGame) throw new ForbiddenException();
     const currentUserProgress = await this.repo.getProgressForCurrentGame(
       command.userId,
       currentGame.id,
@@ -42,6 +43,8 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
         answerStatus: updatedProgress.answerStatus,
         addedAt: updatedProgress.addedAt,
       };
+    } else {
+      throw new ForbiddenException();
     }
   }
 }
