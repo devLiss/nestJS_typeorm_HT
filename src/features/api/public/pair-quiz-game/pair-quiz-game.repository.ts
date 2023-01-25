@@ -54,6 +54,9 @@ export class PairQuizGameRepository {
     });
   }
   async connectToGame(userId: string) {
+    const questions = await this.dataSource.manager.find(Question, {
+      take: 5,
+    });
     const connectToExistingGame = await this.dataSource
       .createQueryBuilder()
       .update(QuizPair)
@@ -61,25 +64,30 @@ export class PairQuizGameRepository {
         player2Id: userId,
         status: 'Active',
         startGameDate: new Date(),
+        questions: questions,
       })
       .where('player2Id is null')
       .returning('*')
       .execute();
 
-    if (connectToExistingGame.affected < 1) {
-      //TODO: найти решение с orderBy: random
-      const questions = await this.dataSource.manager.find(Question, {
-        take: 10,
-      });
+    /*const connectToExistingGame = await this.dataSource.manager.findOne(
+      QuizPair,
+      { where: { player2Id: null } },
+    );
+    connectToExistingGame.player2Id = userId;
+    connectToExistingGame.status = 'Active';
+    connectToExistingGame.startGameDate = new Date();
 
+    connectToExistingGame.questions = questions;
+    return this.dataSource.manager.save(connectToExistingGame);*/
+    if (connectToExistingGame.affected < 1) {
       const game = new QuizPair();
       game.status = 'PendingSecondPlayer';
       game.player1Id = userId;
       game.pairCreatedDate = new Date();
-      game.questions = questions;
-
       return await this.dataSource.manager.save(game);
     }
+    return connectToExistingGame[0];
   }
 
   async updateProgress(
