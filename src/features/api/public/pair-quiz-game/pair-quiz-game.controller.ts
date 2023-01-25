@@ -34,7 +34,7 @@ export class PairQuizGameController {
   @Post('connection')
   async connectToGame(@User() user) {
     console.log('connectToGame');
-    return this.commandBus.execute(new ConnectToGameCommand(user.id));
+    return this.commandBus.execute(new ConnectToGameCommand(user));
   }
   @HttpCode(200)
   @Post('my-current/answers')
