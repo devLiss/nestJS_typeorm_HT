@@ -16,6 +16,7 @@ export class PairQuizGameRepository {
     });
   }
   async getCurrentGame(userId: string) {
+    console.log(userId);
     return this.dataSource.manager.findOne(QuizPair, {
       relations: ['questions'],
       where: [

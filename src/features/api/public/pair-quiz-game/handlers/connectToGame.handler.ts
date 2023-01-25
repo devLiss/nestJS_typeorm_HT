@@ -29,7 +29,7 @@ export class ConnectToGameHandler
         score: 0,
       },
       secondPlayerProgress: null,
-      questions: [],
+      questions: null,
       status: createdGame.status,
       pairCreatedDate: createdGame.pairCreatedDate,
       startGameDate: createdGame.startGameDate,

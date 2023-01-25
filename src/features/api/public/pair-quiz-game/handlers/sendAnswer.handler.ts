@@ -12,8 +12,8 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
 
   async execute(command: SendAnswerCommand): Promise<any> {
     const currentGame = await this.repo.getCurrentGame(command.userId);
-
     if (!currentGame) throw new ForbiddenException();
+
     const currentUserProgress = await this.repo.getProgressForCurrentGame(
       command.userId,
       currentGame.id,

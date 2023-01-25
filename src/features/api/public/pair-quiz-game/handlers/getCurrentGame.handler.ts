@@ -13,7 +13,8 @@ export class GetCurrentGameHandler
   constructor(private repo: PairQuizGameRepository) {}
 
   async execute(query: GetCurrentGameQuery): Promise<any> {
-    const currentGame = await this.repo.getCurrentGame(query.userId);
+    const currentGame = await this.repo.getExistingGame(query.userId);
+    console.log(currentGame);
     if (!currentGame) throw new NotFoundException();
     return this.repo.getCurrentGameInfo(currentGame.id);
   }

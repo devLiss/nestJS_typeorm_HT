@@ -23,6 +23,8 @@ export class PairQuizGameController {
 
   @Get('my-current')
   async getMyCurrentGame(@User() user) {
+    console.log('My current');
+    console.log(user);
     return this.queryBus.execute(new GetCurrentGameQuery(user.id));
   }
 

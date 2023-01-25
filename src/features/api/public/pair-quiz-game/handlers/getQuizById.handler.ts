@@ -12,8 +12,9 @@ export class GetQuizByIdHandler implements IQueryHandler<GetQuizByIdQuery> {
 
   async execute(query: GetQuizByIdQuery): Promise<any> {
     const game = await this.repo.getGameById(query.id, query.userId);
+    console.log(game);
     if (!game) throw new NotFoundException();
-    if (query.userId != game.player1Id || query.userId != game.player2Id)
+    if (query.userId != game.player1Id && query.userId != game.player2Id)
       throw new ForbiddenException();
     return this.repo.getCurrentGameInfo(query.id);
   }
