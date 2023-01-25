@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { BearerAuthGuard } from '../../../../common/guards/bearerAuth.guard';
 import { User } from '../../../../common/decorators/user.decorator';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -22,11 +30,12 @@ export class PairQuizGameController {
     return this.queryBus.execute(new GetQuizByIdQuery(id, user.id));
   }
 
+  @HttpCode(200)
   @Post('connection')
   async connectToGame(@User() user) {
     return this.commandBus.execute(new ConnectToGameCommand(user.id));
   }
-
+  @HttpCode(200)
   @Post('my-current/answers')
   async sendAnswer(@Body('answer') answer: string, @User() user) {
     return this.commandBus.execute(new SendAnswerCommand(answer, user.id));
