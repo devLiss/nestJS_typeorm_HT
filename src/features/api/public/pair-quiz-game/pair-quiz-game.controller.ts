@@ -14,6 +14,7 @@ import { ConnectToGameCommand } from './handlers/connectToGame.handler';
 import { SendAnswerCommand } from './handlers/sendAnswer.handler';
 import { GetQuizByIdQuery } from './handlers/getQuizById.handler';
 import { GetCurrentGameQuery } from './handlers/getCurrentGame.handler';
+import { GetGameByIdDto } from './dto/getGameById.dto';
 
 @UseGuards(BearerAuthGuard)
 @Controller('pair-game-quiz/pairs')
@@ -26,8 +27,8 @@ export class PairQuizGameController {
   }
 
   @Get(':id')
-  async getGameById(@Param('id') id: string, @User() user) {
-    return this.queryBus.execute(new GetQuizByIdQuery(id, user.id));
+  async getGameById(@Param() ggDto: GetGameByIdDto, @User() user) {
+    return this.queryBus.execute(new GetQuizByIdQuery(ggDto.id, user.id));
   }
 
   @HttpCode(200)
