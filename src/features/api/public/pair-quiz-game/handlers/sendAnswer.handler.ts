@@ -48,7 +48,6 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
         answerStatus: updatedProgress.answerStatus,
         addedAt: updatedProgress.addedAt,
       };
-      return;
     } else {
       throw new ForbiddenException();
     }
