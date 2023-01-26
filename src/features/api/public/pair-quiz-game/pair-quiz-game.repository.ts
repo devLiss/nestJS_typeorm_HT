@@ -88,14 +88,14 @@ export class PairQuizGameRepository {
       connectToExistingGame.startGameDate = new Date();
       connectToExistingGame.questions = questions;
       const t = await this.dataSource.manager.save(connectToExistingGame);
-      return this.getGameById(connectToExistingGame.id, userId);
+      return this.getCurrentGameInfo(connectToExistingGame.id, userId);
     } else {
       const game = new QuizPair();
       game.status = 'PendingSecondPlayer';
       game.player1Id = userId;
       game.pairCreatedDate = new Date();
       const tt = await this.dataSource.manager.save(game);
-      return this.getGameById(game.id, userId);
+      return this.getCurrentGameInfo(game.id, userId);
     }
   }
 
