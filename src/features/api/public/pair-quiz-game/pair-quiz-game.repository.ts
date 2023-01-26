@@ -76,18 +76,18 @@ export class PairQuizGameRepository {
       {
         where: {
           status: 'PendingSecondPlayer',
-          player2Id: IsNull(),
         },
       },
     );
 
-    console.log(connectToExistingGame);
+    console.log('connectToExistingGame  ==> ', connectToExistingGame);
     if (connectToExistingGame) {
       connectToExistingGame.player2Id = userId;
       connectToExistingGame.status = 'Active';
       connectToExistingGame.startGameDate = new Date();
       connectToExistingGame.questions = questions;
       const t = await this.dataSource.manager.save(connectToExistingGame);
+      console.log('t => ', t);
       return this.getCurrentGameInfo(t.id);
     } else {
       const game = new QuizPair();
@@ -95,6 +95,7 @@ export class PairQuizGameRepository {
       game.player1Id = userId;
       game.pairCreatedDate = new Date();
       const tt = await this.dataSource.manager.save(game);
+      console.log('tt => ', tt);
       return this.getCurrentGameInfo(tt.id);
     }
   }
@@ -128,6 +129,7 @@ export class PairQuizGameRepository {
     });
   }
   async getCurrentGameInfo(gameId: string) {
+    console.log('gameId ==> ', gameId);
     const query = `
       select qp.id, qp.status, qp."pairCreatedDate", qp."startGameDate" , qp."finishGameDate", 
       (select array_to_json(array_agg( row_to_json(t))) from (select q.id, q.body from questions q 
@@ -145,7 +147,7 @@ export class PairQuizGameRepository {
       (select count(*) as "score" from quiz_progress qpr where "playerId" = qp."player2Id" and "answerStatus" = 'Correct') as "score"
        )x3) as "secondPlayerProgress"
       
-      from quiz_pair qp`;
+      from quiz_pair qp where id = '${gameId}'`;
 
     const result = await this.dataSource.query(query);
     return result ? result[0] : null;
