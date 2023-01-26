@@ -152,4 +152,19 @@ export class PairQuizGameRepository {
     const result = await this.dataSource.query(query);
     return result ? result[0] : null;
   }
+
+  async getOtherPlayerProgress(gameId: string, userId: string) {
+    const query = `select count(*) from quiz_progress where "gameId"='${gameId}' and "playerId" != '${userId}'`;
+    return this.dataSource.query(query);
+  }
+  async finishGame(gameId: string) {
+    const game = await this.dataSource.manager.findOne(QuizPair, {
+      where: { id: gameId },
+    });
+
+    game.finishGameDate = new Date();
+    game.status = 'Finished';
+
+    return await this.dataSource.manager.save(game);
+  }
 }
