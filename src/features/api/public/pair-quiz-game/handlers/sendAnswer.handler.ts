@@ -12,20 +12,23 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
 
   async execute(command: SendAnswerCommand): Promise<any> {
     const currentGame = await this.repo.getCurrentGame(command.userId);
+    console.log('current Game ===> ', currentGame);
     if (!currentGame) throw new ForbiddenException();
-
-    console.log(currentGame);
 
     const currentUserProgress = await this.repo.getProgressForCurrentGame(
       command.userId,
       currentGame.id,
     );
 
-    if (currentGame.questions.length != currentUserProgress) {
+    if (
+      currentGame.questions &&
+      currentGame.questions.length != currentUserProgress
+    ) {
       const check = await this.repo.getCurrentQuestion(
         currentGame.id,
         currentUserProgress,
       );
+      console.log(check);
       const correctAnswers = await this.repo.getCorrectAnswers(
         check.questionsId,
       );
@@ -33,7 +36,7 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
       if (correctAnswers.correctAnswers.includes(command.answer)) {
         answerStatus = 'Correct';
       }
-      /*const updatedProgress = await this.repo.updateProgress(
+      const updatedProgress = await this.repo.updateProgress(
         command.userId,
         currentGame.id,
         check.questionsId,
@@ -44,7 +47,7 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
         questionId: updatedProgress.questionId,
         answerStatus: updatedProgress.answerStatus,
         addedAt: updatedProgress.addedAt,
-      };*/
+      };
       return;
     } else {
       throw new ForbiddenException();

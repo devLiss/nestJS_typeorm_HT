@@ -20,13 +20,18 @@ export class PairQuizGameRepository {
   }
   async getCurrentGame(userId: string) {
     console.log(userId);
-    return this.dataSource.manager.findOne(QuizPair, {
+    const query = `select qp.*, (select array_to_json(array_agg( row_to_json(t))) from (select q.id, q.body from questions q
+    left join quiz_pair_questions_questions qpqq on q.id = qpqq."questionsId" where qpqq."quizPairId" = qp.id ) t) as "questions"
+    from quiz_pair qp where status = 'Active'`;
+    const game = await this.dataSource.query(query);
+    return game ? game[0] : null;
+    /*this.dataSource.manager.findOne(QuizPair, {
       where: [
         { player2Id: userId, status: 'Active' },
         { player1Id: userId, status: 'Active' },
       ],
       relations: ['questions'],
-    });
+    });*/
   }
   async getProgressForCurrentGame(userId: string, gameId: string) {
     console.log(userId, '  ==> ', gameId);
@@ -39,9 +44,9 @@ export class PairQuizGameRepository {
   }
   async getCurrentQuestion(gameId: string, nextGameId: number) {
     const offset = nextGameId == 0 ? 0 : nextGameId - 1;
-    const currentQuestion = await this.dataSource.query(
-      `select * from quiz_pair_questions_questions where "quizPairId" = '${gameId}' offset ${offset} limit 1`,
-    );
+    const query = `select * from quiz_pair_questions_questions where "quizPairId" = '${gameId}' offset ${offset} limit 1`;
+    console.log(query);
+    const currentQuestion = await this.dataSource.query(query);
     return currentQuestion ? currentQuestion[0] : null;
   }
   async getProgress(gameId: string, userId: string) {

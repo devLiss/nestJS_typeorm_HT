@@ -4,9 +4,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
-import { Answer } from './Answers.entity';
 
 @Entity('questions')
 export class Question {
