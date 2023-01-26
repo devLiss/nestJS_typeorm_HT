@@ -44,7 +44,7 @@ export class PairQuizGameRepository {
     });
   }
   async getCurrentQuestion(gameId: string, nextGameId: number) {
-    const offset = nextGameId == 0 ? 0 : nextGameId - 1;
+    const offset = nextGameId == 0 ? 0 : nextGameId;
     const query = `select * from quiz_pair_questions_questions where "quizPairId" = '${gameId}' offset ${offset} limit 1`;
     console.log(query);
     const currentQuestion = await this.dataSource.query(query);
