@@ -20,7 +20,7 @@ export class ConnectToGameHandler
     if (existedGame.length) throw new ForbiddenException();
     const createdGame = await this.repo.connectToGame(command.user.id);
     console.log('Created Game ==> ', createdGame);
-    return {
+    return createdGame; /*{
       id: createdGame.id,
       firstPlayerProgress: {
         answers: [],
@@ -36,6 +36,6 @@ export class ConnectToGameHandler
       pairCreatedDate: createdGame.pairCreatedDate,
       startGameDate: createdGame.startGameDate,
       finishGameDate: createdGame.finishGameDate,
-    };
+    };*/
   }
 }

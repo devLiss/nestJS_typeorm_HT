@@ -22,8 +22,9 @@ export class PairQuizGameRepository {
     console.log(userId);
     const query = `select qp.*, (select array_to_json(array_agg( row_to_json(t))) from (select q.id, q.body from questions q
     left join quiz_pair_questions_questions qpqq on q.id = qpqq."questionsId" where qpqq."quizPairId" = qp.id ) t) as "questions"
-    from quiz_pair qp where status = 'Active'`;
+    from quiz_pair qp where ("player1Id" = '${userId}' or "player2Id" = '${userId}') and status = 'Active'`;
     const game = await this.dataSource.query(query);
+    console.log(game);
     return game ? game[0] : null;
     /*this.dataSource.manager.findOne(QuizPair, {
       where: [
@@ -64,6 +65,9 @@ export class PairQuizGameRepository {
   }
   async connectToGame(userId: string) {
     const questions = await this.dataSource.manager.find(Question, {
+      where: {
+        published: true,
+      },
       take: 5,
     });
 
