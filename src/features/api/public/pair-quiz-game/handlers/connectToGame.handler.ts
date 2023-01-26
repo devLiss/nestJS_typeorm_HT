@@ -15,7 +15,9 @@ export class ConnectToGameHandler
   async execute(command: ConnectToGameCommand): Promise<any> {
     const existedGame = await this.repo.getExistingGame(command.user.id);
     console.log('existed game ', existedGame);
-    if (existedGame) throw new ForbiddenException();
+
+    console.log('user who want to connect =>  ', command.user.id);
+    if (existedGame.length) throw new ForbiddenException();
     const createdGame = await this.repo.connectToGame(command.user.id);
     console.log('Created Game ==> ', createdGame);
     return {

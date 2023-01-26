@@ -8,12 +8,15 @@ export class PairQuizGameRepository {
   constructor(@InjectDataSource() protected dataSource: DataSource) {}
 
   async getExistingGame(userId: string) {
-    return this.dataSource.manager.findOne(QuizPair, {
+    return this.dataSource.query(
+      `select * from quiz_pair where ("player1Id" = '${userId}' or "player2Id" = '${userId}') and status != 'Finished'`,
+    );
+    /*return this.dataSource.manager.findOne(QuizPair, {
       where: [
-        { player2Id: userId, status: Not('Finished') },
         { player1Id: userId, status: Not('Finished') },
+        { player2Id: userId, status: Not('Finished') },
       ],
-    });
+    });*/
   }
   async getCurrentGame(userId: string) {
     console.log(userId);
@@ -58,24 +61,18 @@ export class PairQuizGameRepository {
     const questions = await this.dataSource.manager.find(Question, {
       take: 5,
     });
-    /*const connectToExistingGame = await this.dataSource
-      .createQueryBuilder()
-      .update(QuizPair)
-      .set({
-        player2Id: userId,
-        status: 'Active',
-        startGameDate: new Date(),
-        questions: questions,
-      })
-      .where('player2Id is null')
-      .returning('*')
-      .execute();*/
 
     const connectToExistingGame = await this.dataSource.manager.findOne(
       QuizPair,
-      { where: { player2Id: null } },
+      {
+        where: {
+          status: 'PendingSecondPlayer',
+          player2Id: null,
+        },
+      },
     );
 
+    console.log(connectToExistingGame);
     if (connectToExistingGame) {
       connectToExistingGame.player2Id = userId;
       connectToExistingGame.status = 'Active';
