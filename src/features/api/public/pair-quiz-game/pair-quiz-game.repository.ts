@@ -135,13 +135,13 @@ export class PairQuizGameRepository {
       (select array_to_json(array_agg( row_to_json(t))) from (select q.id, q.body from questions q 
       left join quiz_pair_questions_questions qpqq on q.id = qpqq."questionsId" where qpqq."quizPairId" = '${gameId}') t) as questions,
       (select row_to_json(x3)  from (select * from
-      (select array_to_json(array_agg( row_to_json(t1))) as answers from (
+      (select coalesce( array_to_json(array_agg( row_to_json(t1))),'[]')  as answers from (
       select qpr."questionId", qpr."answerStatus", qpr."addedAt" from quiz_progress qpr where "playerId" = qp."player1Id") t1) as "answers",
       (select row_to_json(t2) as player from (select id, login from users u where id = qp."player1Id") t2) as "player",
       (select count(*) as "score" from quiz_progress qpr where "playerId" = qp."player1Id" and "answerStatus" = 'Correct') as "score"
        )x3) as "firstPlayerProgress", 
       (select row_to_json(x3)  from (select * from
-      (select array_to_json(array_agg( row_to_json(t1))) as answers from (
+      (select coalesce( array_to_json(array_agg( row_to_json(t1))),'[]') as answers from (
       select qpr."questionId", qpr."answerStatus", qpr."addedAt" from quiz_progress qpr where "playerId" = qp."player2Id") t1) as "answers",
       (select row_to_json(t2) as player from (select id, login from users u where id = qp."player2Id") t2) as "player",
       (select count(*) as "score" from quiz_progress qpr where "playerId" = qp."player2Id" and "answerStatus" = 'Correct') as "score"
