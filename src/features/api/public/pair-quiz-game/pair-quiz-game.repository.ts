@@ -88,14 +88,14 @@ export class PairQuizGameRepository {
       connectToExistingGame.startGameDate = new Date();
       connectToExistingGame.questions = questions;
       const t = await this.dataSource.manager.save(connectToExistingGame);
-      return this.getCurrentGameInfo(connectToExistingGame.id);
+      return this.getCurrentGameInfo(t.id);
     } else {
       const game = new QuizPair();
       game.status = 'PendingSecondPlayer';
       game.player1Id = userId;
       game.pairCreatedDate = new Date();
       const tt = await this.dataSource.manager.save(game);
-      return this.getCurrentGameInfo(game.id);
+      return this.getCurrentGameInfo(tt.id);
     }
   }
 
@@ -147,6 +147,7 @@ export class PairQuizGameRepository {
       
       from quiz_pair qp`;
 
-    return this.dataSource.query(query);
+    const result = await this.dataSource.query(query);
+    return result ? result[0] : null;
   }
 }
