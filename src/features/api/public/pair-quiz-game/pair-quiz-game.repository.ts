@@ -1,5 +1,5 @@
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource, Not } from 'typeorm';
+import { DataSource, IsNull, Not } from 'typeorm';
 import { QuizPair } from '../../../entities/entities/QuizPair.entity';
 import { Question } from '../../../entities/entities/Question.entity';
 import { QuizProgress } from '../../../entities/entities/QuizProgress.entity';
@@ -21,11 +21,11 @@ export class PairQuizGameRepository {
   async getCurrentGame(userId: string) {
     console.log(userId);
     return this.dataSource.manager.findOne(QuizPair, {
-      relations: ['questions'],
       where: [
         { player2Id: userId, status: 'Active' },
         { player1Id: userId, status: 'Active' },
       ],
+      relations: ['questions'],
     });
   }
   async getProgressForCurrentGame(userId: string, gameId: string) {
@@ -67,7 +67,7 @@ export class PairQuizGameRepository {
       {
         where: {
           status: 'PendingSecondPlayer',
-          player2Id: null,
+          player2Id: IsNull(),
         },
       },
     );

@@ -15,7 +15,7 @@ export class GetCurrentGameHandler
   async execute(query: GetCurrentGameQuery): Promise<any> {
     const currentGame = await this.repo.getExistingGame(query.userId);
     console.log(currentGame);
-    if (!currentGame) throw new NotFoundException();
-    return this.repo.getCurrentGameInfo(currentGame.id);
+    if (!currentGame.length) throw new NotFoundException();
+    return this.repo.getCurrentGameInfo(currentGame[0].id);
   }
 }
