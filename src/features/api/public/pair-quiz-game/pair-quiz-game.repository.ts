@@ -24,7 +24,8 @@ export class PairQuizGameRepository {
     left join quiz_pair_questions_questions qpqq on q.id = qpqq."questionsId" where qpqq."quizPairId" = qp.id ) t) as "questions"
     from quiz_pair qp where ("player1Id" = '${userId}' or "player2Id" = '${userId}') and status = 'Active'`;
     const game = await this.dataSource.query(query);
-    console.log(game);
+    console.log('QUERY ', query);
+    console.log('GAME result', game);
     return game ? game[0] : null;
     /*this.dataSource.manager.findOne(QuizPair, {
       where: [

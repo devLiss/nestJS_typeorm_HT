@@ -14,6 +14,8 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
     const currentGame = await this.repo.getCurrentGame(command.userId);
 
     console.log('current Game ===> ', currentGame);
+    console.log('answer  ', command.answer);
+    console.log('user  ', command.userId);
     if (!currentGame) throw new ForbiddenException();
 
     const currentUserProgress = await this.repo.getProgressForCurrentGame(
@@ -23,7 +25,7 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
     console.log('Current user progress ==> ', currentUserProgress);
     console.log('Questions len  ', currentGame.questions?.length);
     console.log('currentProgress  ', currentUserProgress);
-    console.log('answer  ', command.answer);
+
     if (
       currentGame.questions &&
       currentGame.questions.length >= currentUserProgress + 1
