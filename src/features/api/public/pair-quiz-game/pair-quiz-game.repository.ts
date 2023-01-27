@@ -168,4 +168,10 @@ export class PairQuizGameRepository {
 
     return await this.dataSource.manager.save(game);
   }
+
+  async getGameByUId(userId: string) {
+    return this.dataSource.query(
+      `select * from quiz_pair where ("player1Id" = '${userId}' or "player12d" = '${userId}')`,
+    );
+  }
 }

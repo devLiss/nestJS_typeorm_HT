@@ -12,7 +12,8 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
 
   async execute(command: SendAnswerCommand): Promise<any> {
     const currentGame = await this.repo.getCurrentGame(command.userId);
-
+    const g = await this.repo.getGameByUId(command.userId);
+    console.log('G => ', g);
     console.log('current Game ===> ', currentGame);
     console.log('answer  ', command.answer);
     console.log('user  ', command.userId);
