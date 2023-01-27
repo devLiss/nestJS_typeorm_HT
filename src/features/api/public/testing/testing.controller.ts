@@ -4,6 +4,7 @@ import { SessionsSqlRepository } from '../../../entities/postgres/sessionsSql.re
 import { BlogsSqlRepository } from '../../../entities/postgres/blogsSql.repository';
 import { PostSqlRepository } from '../../../entities/postgres/postSql.repository';
 import { QuizRepository } from '../../super-admin/quiz/quiz.repository';
+import { PairQuizGameRepository } from '../pair-quiz-game/pair-quiz-game.repository';
 
 @Controller('testing')
 export class TestingController {
@@ -13,6 +14,7 @@ export class TestingController {
     private blogRepo: BlogsSqlRepository,
     private postRepo: PostSqlRepository,
     private quizRepo: QuizRepository,
+    private quizPairRepo: PairQuizGameRepository,
   ) {}
 
   @Delete('all-data')
@@ -23,5 +25,6 @@ export class TestingController {
     await this.blogRepo.deleteAll();
     await this.postRepo.deleteAll();
     await this.quizRepo.deleteAll();
+    await this.quizPairRepo.deleteAll();
   }
 }

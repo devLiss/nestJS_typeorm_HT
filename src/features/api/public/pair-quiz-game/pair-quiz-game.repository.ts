@@ -174,4 +174,8 @@ export class PairQuizGameRepository {
       `select * from quiz_pair where ("player1Id" = '${userId}' or "player2Id" = '${userId}')`,
     );
   }
+
+  async deleteAll() {
+    return this.dataSource.query(`delete from quiz_pair cascade`);
+  }
 }
