@@ -25,7 +25,7 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
     console.log('currentProgress  ', currentUserProgress);
     if (
       currentGame.questions &&
-      currentGame.questions.length > currentUserProgress
+      currentGame.questions.length > currentUserProgress + 1
     ) {
       const check = await this.repo.getCurrentQuestion(
         currentGame.id,
