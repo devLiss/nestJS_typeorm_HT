@@ -14,10 +14,12 @@ export class GetQuizByIdHandler implements IQueryHandler<GetQuizByIdQuery> {
     const game = await this.repo.getGameById(query.id, query.userId);
     console.log(game);
     if (!game) throw new NotFoundException();
-    if (query.userId != game.player1Id && query.userId != game.player2Id)
+    /*if (query.userId != game.player1Id && query.userId != game.player2Id)
       throw new ForbiddenException();
+      */
 
     const findedGame = await this.repo.getCurrentGameInfo(query.id);
+
     if (findedGame && findedGame.status == 'Finished') {
       const firstPlayer = findedGame.firstPlayerProgress;
       const secondPlayer = findedGame.secondPlayerProgress;
@@ -28,8 +30,9 @@ export class GetQuizByIdHandler implements IQueryHandler<GetQuizByIdQuery> {
       const lastQuestionSp = new Date(
         secondPlayer.answers[secondPlayer.answers.length - 1].addedAt,
       ).getTime();
+
       if (
-        lastQuestionFP > lastQuestionSp &&
+        lastQuestionFP < lastQuestionSp &&
         firstPlayer.answers.find((item) => item.answerStatus == 'Correct')
       ) {
         console.log('FP is WIN');
