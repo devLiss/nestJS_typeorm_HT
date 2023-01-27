@@ -171,7 +171,7 @@ export class PairQuizGameRepository {
 
   async getGameByUId(userId: string) {
     return this.dataSource.query(
-      `select * from quiz_pair where ("player1Id" = '${userId}' or "player12d" = '${userId}')`,
+      `select * from quiz_pair where ("player1Id" = '${userId}' or "player2Id" = '${userId}')`,
     );
   }
 }
