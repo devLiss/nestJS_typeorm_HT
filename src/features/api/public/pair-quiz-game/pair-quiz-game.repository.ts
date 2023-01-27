@@ -176,6 +176,7 @@ export class PairQuizGameRepository {
   }
 
   async deleteAll() {
+    await this.dataSource.query(`delete from quiz_progress`);
     return this.dataSource.query(`delete from quiz_pair cascade`);
   }
 }
