@@ -21,6 +21,8 @@ export class SendAnswerHandler implements ICommandHandler<SendAnswerCommand> {
       currentGame.id,
     );
     console.log('Current user progress ==> ', currentUserProgress);
+    console.log('Questions len  ', currentGame.questions?.length);
+    console.log('currentProgress  ', currentUserProgress);
     if (
       currentGame.questions &&
       currentGame.questions.length > currentUserProgress
