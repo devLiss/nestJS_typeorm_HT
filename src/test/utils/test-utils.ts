@@ -13,15 +13,11 @@ export const getAppAndCleanDB = async () => {
     imports: [AppModule],
   }).compile();
 
-  //let app: INestApplication;
   const app: INestApplication = moduleFixture.createNestApplication();
-  // app = createApp(app);
   app.enableCors();
   app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({
-      // stopAtFirstError: true,
-      // Here we configure what globalPipes will send to GlobalFilters(errors)
       exceptionFactory: (errors) => {
         const errorsForResponse = [];
         errors.forEach((e) => {

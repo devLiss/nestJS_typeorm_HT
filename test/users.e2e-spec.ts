@@ -17,6 +17,7 @@ describe('Users', () => {
         app
           .getHttpServer()
           .post('/sa/users')
+          .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
           .send({
             login: 'liseyna1',
             email: 'liseyna1@gmail.com',
