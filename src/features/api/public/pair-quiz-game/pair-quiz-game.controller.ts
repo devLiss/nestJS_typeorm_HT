@@ -5,6 +5,7 @@ import {
   HttpCode,
   Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { BearerAuthGuard } from '../../../../common/guards/bearerAuth.guard';
@@ -15,12 +16,18 @@ import { SendAnswerCommand } from './handlers/sendAnswer.handler';
 import { GetQuizByIdQuery } from './handlers/getQuizById.handler';
 import { GetCurrentGameQuery } from './handlers/getCurrentGame.handler';
 import { GetGameByIdDto } from './dto/getGameById.dto';
+import { PaginatingQueryDto } from '../../bloggers/blogs/dto/paginatingQuery.dto';
+import { GetAllMyGamesQuery } from './handlers/getAllMyGames.handler';
 
 @UseGuards(BearerAuthGuard)
 @Controller('pair-game-quiz/pairs')
 export class PairQuizGameController {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
+  @Get('my')
+  async getMyAllGames(@User() user, @Query() p: PaginatingQueryDto) {
+    return this.queryBus.execute(new GetAllMyGamesQuery(user.id, p));
+  }
   @Get('my-current')
   async getMyCurrentGame(@User() user) {
     console.log('My current');

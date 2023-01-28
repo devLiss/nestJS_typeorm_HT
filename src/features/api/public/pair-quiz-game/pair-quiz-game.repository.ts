@@ -3,6 +3,7 @@ import { DataSource, IsNull, Not } from 'typeorm';
 import { QuizPair } from '../../../entities/entities/QuizPair.entity';
 import { Question } from '../../../entities/entities/Question.entity';
 import { QuizProgress } from '../../../entities/entities/QuizProgress.entity';
+import { PaginatingQueryDto } from '../../bloggers/blogs/dto/paginatingQuery.dto';
 
 export class PairQuizGameRepository {
   constructor(@InjectDataSource() protected dataSource: DataSource) {}
@@ -154,6 +155,38 @@ export class PairQuizGameRepository {
     return result ? result[0] : null;
   }
 
+  async getMyGamesInfo(userId: string, pagination: PaginatingQueryDto) {
+    const offset = (pagination.pageNumber - 1) * pagination.pageSize;
+    const orderBy =
+      pagination.sortBy != 'createdAt'
+        ? `"${pagination.sortBy}" COLLATE "C"`
+        : `qp."pairCreatedDate"`;
+    const query = `select qp.id, qp.status, qp."pairCreatedDate", qp."startGameDate" , qp."finishGameDate", 
+      (select array_to_json(array_agg( row_to_json(t))) from (select q.id, q.body from questions q 
+      left join quiz_pair_questions_questions qpqq on q.id = qpqq."questionsId" where qpqq."quizPairId" = qp."id") t) as questions,
+      (select row_to_json(x3)  from (select * from
+      (select coalesce( array_to_json(array_agg( row_to_json(t1))),'[]')  as answers from (
+      select qpr."questionId", qpr."answerStatus", to_char (qpr."addedAt"::timestamp with time zone at time zone 'Etc/UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') as "addedAt" from quiz_progress qpr where "playerId" = qp."player1Id" and "gameId" = qp."id" order by qpr."addedAt" asc) t1) as "answers",
+      (select row_to_json(t2) as player from (select id, login from users u where id = qp."player1Id") t2) as "player",
+      (select count(*) as "score" from quiz_progress qpr where "playerId" = qp."player1Id" and "answerStatus" = 'Correct'  and "gameId" = qp."id") as "score"
+       )x3) as "firstPlayerProgress", 
+      (select row_to_json(x3)  from (select * from
+      (select coalesce( array_to_json(array_agg( row_to_json(t1))),'[]') as answers from (
+      select qpr."questionId", qpr."answerStatus",to_char (qpr."addedAt"::timestamp with time zone at time zone 'Etc/UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') as "addedAt" from quiz_progress qpr where "playerId" = qp."player2Id" and "gameId" = qp."id" order by qpr."addedAt" asc) t1) as "answers",
+      (select row_to_json(t2) as player from (select id, login from users u where id = qp."player2Id") t2) as "player",
+      (select count(*) as "score" from quiz_progress qpr where "playerId" = qp."player2Id" and "answerStatus" = 'Correct'  and "gameId" = qp."id") as "score"
+       )x3) as "secondPlayerProgress"
+      
+      from quiz_pair qp where ("player1Id" = '${userId}' or "player2Id" = '${userId}') and status in ('Active', 'Finished') order by ${orderBy} ${pagination.sortDirection} limit ${pagination.pageSize} offset ${offset}`;
+
+    const items = await this.dataSource.query(query);
+
+    const total = await this.dataSource.query(
+      `select count(*) from quiz_pair qp where ("player1Id" = '${userId}' or "player2Id" = '${userId}') and status in ('Active', 'Finished')`,
+    );
+
+    return { items: items, total: total[0].count };
+  }
   async getOtherPlayerProgress(gameId: string, userId: string) {
     const query = `select count(*) from quiz_progress where "gameId"='${gameId}' and "playerId" != '${userId}'`;
     return this.dataSource.query(query);

@@ -95,6 +95,7 @@ import {
   GetCurrentGameHandler,
   GetCurrentGameQuery,
 } from './features/api/public/pair-quiz-game/handlers/getCurrentGame.handler';
+import { GetAllMyGamesHandler } from './features/api/public/pair-quiz-game/handlers/getAllMyGames.handler';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -141,6 +142,7 @@ const handlers = [
   SendAnswerHandler,
   GetQuizByIdHandler,
   GetCurrentGameHandler,
+  GetAllMyGamesHandler,
 ];
 const repos = [];
 const sqlRepos = [
