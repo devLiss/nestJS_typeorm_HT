@@ -207,6 +207,25 @@ export class PairQuizGameRepository {
     );
   }
 
+  async getMyStatistic(userId: string) {
+    const res = await this.dataSource.createQueryBuilder().select('sum(score)');
+    const query = `select sum(score) as "sumScore", avg(score) as "avgScores", count(*) as "gamesCount",
+ (select count(*) from score where "player" = $1 and winner = 1)as "winsCount",
+  (select count(*) from score where "player" = $1 and winner = 0)as "lossesCount",
+  (select count(*) from score where "player" = $1 and winner = -1)as "drawsCount"
+from score s 
+where "player" = $1   
+`;
+    const result = await this.dataSource.query(query, [userId]);
+    return {
+      sumScore: result[0].sumScore ?? 0,
+      avgScores: result[0].avgScores ?? 0,
+      gamesCount: +result[0].gamesCount,
+      winsCount: +result[0].winsCount,
+      lossesCount: +result[0].lossesCount,
+      drawsCount: +result[0].drawsCount,
+    };
+  }
   async deleteAll() {
     await this.dataSource.query(`delete from quiz_progress`);
     return this.dataSource.query(`delete from quiz_pair cascade`);

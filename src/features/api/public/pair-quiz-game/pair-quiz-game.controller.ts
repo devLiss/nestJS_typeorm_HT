@@ -18,37 +18,43 @@ import { GetCurrentGameQuery } from './handlers/getCurrentGame.handler';
 import { GetGameByIdDto } from './dto/getGameById.dto';
 import { PaginatingQueryDto } from '../../bloggers/blogs/dto/paginatingQuery.dto';
 import { GetAllMyGamesQuery } from './handlers/getAllMyGames.handler';
+import { GetMyStatisticQuery } from './handlers/getMyStatistic.handler';
 
 @UseGuards(BearerAuthGuard)
-@Controller('pair-game-quiz/pairs')
+@Controller('pair-game-quiz')
 export class PairQuizGameController {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
+
+  @Get('users/my-statistic')
+  async getMyStatistic(@User() user) {
+    return this.queryBus.execute(new GetMyStatisticQuery(user.id));
+  }
 
   @Get('my')
   async getMyAllGames(@User() user, @Query() p: PaginatingQueryDto) {
     return this.queryBus.execute(new GetAllMyGamesQuery(user.id, p));
   }
-  @Get('my-current')
+  @Get('pairs/my-current')
   async getMyCurrentGame(@User() user) {
     console.log('My current');
     console.log(user);
     return this.queryBus.execute(new GetCurrentGameQuery(user.id));
   }
 
-  @Get(':id')
+  @Get('pairs/:id')
   async getGameById(@Param() ggDto: GetGameByIdDto, @User() user) {
     return this.queryBus.execute(new GetQuizByIdQuery(ggDto.id, user.id));
   }
 
   @HttpCode(200)
-  @Post('connection')
+  @Post('pairs/connection')
   async connectToGame(@User() user) {
     console.log('connectToGame');
     return this.commandBus.execute(new ConnectToGameCommand(user));
   }
 
   @HttpCode(200)
-  @Post('my-current/answers')
+  @Post('pairs/my-current/answers')
   async sendAnswer(@Body('answer') answer: string, @User() user) {
     return this.commandBus.execute(new SendAnswerCommand(answer, user.id));
   }
