@@ -232,9 +232,9 @@ where "player" = $1
     const offset = (tuDto.pageNumber - 1) * tuDto.pageSize;
     const orderBy = tuDto.sort.join(',');
     const query = `select json_build_object('id', u.id , 'login',u.login) as "player", sum(score) as "sumScore", round (avg(score)::numeric, 2)  as "avgScores", count(*) as "gamesCount",
-       (select count(*) from score where winner = 1)as "winsCount",
-       (select count(*) from score where winner = 0)as "lossesCount",
-       (select count(*) from score where winner = -1)as "drawsCount"
+       (select count(*) from score where  player = u.id and winner = 1)as "winsCount",
+       (select count(*) from score where player = u.id and winner = 0)as "lossesCount",
+       (select count(*) from score where player = u.id and winner = -1)as "drawsCount"
       from score s left join users u on s.player = u.id group by u.id order by $1 limit $2 offset $3
       `;
     console.log(query);
