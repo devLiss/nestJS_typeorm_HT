@@ -235,7 +235,7 @@ where "player" = $1
        (select count(*) from score where  player = u.id and winner = 1)as "winsCount",
        (select count(*) from score where player = u.id and winner = 0)as "lossesCount",
        (select count(*) from score where player = u.id and winner = -1)as "drawsCount",
-       json_build_object('id', u.id , 'login',u.login) as "player",
+       json_build_object('id', u.id , 'login',u.login) as "player"
       from score s left join users u on s.player = u.id group by u.id order by $1 limit $2 offset $3
       `;
     console.log(query);
