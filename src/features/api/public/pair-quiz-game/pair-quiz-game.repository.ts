@@ -4,6 +4,7 @@ import { QuizPair } from '../../../entities/entities/QuizPair.entity';
 import { Question } from '../../../entities/entities/Question.entity';
 import { QuizProgress } from '../../../entities/entities/QuizProgress.entity';
 import { PaginatingQueryDto } from '../../bloggers/blogs/dto/paginatingQuery.dto';
+import { TopUsersDto } from './dto/topUsers.dto';
 
 export class PairQuizGameRepository {
   constructor(@InjectDataSource() protected dataSource: DataSource) {}
@@ -209,7 +210,7 @@ export class PairQuizGameRepository {
 
   async getMyStatistic(userId: string) {
     const res = await this.dataSource.createQueryBuilder().select('sum(score)');
-    const query = `select sum(score) as "sumScore", avg(score) as "avgScores", count(*) as "gamesCount",
+    const query = `select sum(score) as "sumScore", round (avg(score)::numeric, 2) as "avgScores", count(*) as "gamesCount",
  (select count(*) from score where "player" = $1 and winner = 1)as "winsCount",
   (select count(*) from score where "player" = $1 and winner = 0)as "lossesCount",
   (select count(*) from score where "player" = $1 and winner = -1)as "drawsCount"
@@ -225,6 +226,29 @@ where "player" = $1
       lossesCount: +result[0].lossesCount,
       drawsCount: +result[0].drawsCount,
     };
+  }
+
+  async getTopUsers(tuDto: TopUsersDto) {
+    const offset = (tuDto.pageNumber - 1) * tuDto.pageSize;
+    const orderBy = tuDto.sort.join(',');
+    const query = `select json_build_object('id', u.id , 'login',u.login) as "player", sum(score) as "sumScore", round (avg(score)::numeric, 2)  as "avgScores", count(*) as "gamesCount",
+       (select count(*) from score where winner = 1)as "winsCount",
+       (select count(*) from score where winner = 0)as "lossesCount",
+       (select count(*) from score where winner = -1)as "drawsCount"
+      from score s left join users u on s.player = u.id group by u.id order by $1 limit $2 offset $3
+      `;
+    console.log(query);
+    const result = await this.dataSource.query(query, [
+      orderBy,
+      tuDto.pageSize,
+      offset,
+    ]);
+
+    const totalQuery = `select count(*) over ()
+      from score s left join users u on s.player = u.id group by u.id limit 1`;
+
+    const totalResult = await this.dataSource.query(totalQuery);
+    return { total: totalResult[0].count, items: result };
   }
   async deleteAll() {
     await this.dataSource.query(`delete from quiz_progress`);

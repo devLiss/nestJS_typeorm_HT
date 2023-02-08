@@ -19,12 +19,18 @@ import { GetGameByIdDto } from './dto/getGameById.dto';
 import { PaginatingQueryDto } from '../../bloggers/blogs/dto/paginatingQuery.dto';
 import { GetAllMyGamesQuery } from './handlers/getAllMyGames.handler';
 import { GetMyStatisticQuery } from './handlers/getMyStatistic.handler';
+import { TopUsersDto } from './dto/topUsers.dto';
+import { GetTopUsersQuery } from './handlers/getTopUsers.handler';
 
 @UseGuards(BearerAuthGuard)
 @Controller('pair-game-quiz')
 export class PairQuizGameController {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
+  @Get('users/top')
+  async getTop(@Query() tuDto: TopUsersDto) {
+    return this.queryBus.execute(new GetTopUsersQuery(tuDto));
+  }
   @Get('users/my-statistic')
   async getMyStatistic(@User() user) {
     return this.queryBus.execute(new GetMyStatisticQuery(user.id));
