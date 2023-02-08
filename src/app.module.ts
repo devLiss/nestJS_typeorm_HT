@@ -98,6 +98,7 @@ import {
 import { GetAllMyGamesHandler } from './features/api/public/pair-quiz-game/handlers/getAllMyGames.handler';
 import { GetMyStatisticHandler } from './features/api/public/pair-quiz-game/handlers/getMyStatistic.handler';
 import { GetTopUsersHandler } from './features/api/public/pair-quiz-game/handlers/getTopUsers.handler';
+import { QuizStatisticsController } from './features/api/public/pair-quiz-game/quiz-statistics.controller';
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -181,6 +182,7 @@ const controllers = [
   BloggerUsersController,
   QuizController,
   PairQuizGameController,
+  QuizStatisticsController,
 ];
 @Module({
   imports: [

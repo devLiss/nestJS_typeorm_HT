@@ -27,15 +27,6 @@ import { GetTopUsersQuery } from './handlers/getTopUsers.handler';
 export class PairQuizGameController {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
-  @Get('users/top')
-  async getTop(@Query() tuDto: TopUsersDto) {
-    return this.queryBus.execute(new GetTopUsersQuery(tuDto));
-  }
-  @Get('users/my-statistic')
-  async getMyStatistic(@User() user) {
-    return this.queryBus.execute(new GetMyStatisticQuery(user.id));
-  }
-
   @Get('my')
   async getMyAllGames(@User() user, @Query() p: PaginatingQueryDto) {
     return this.queryBus.execute(new GetAllMyGamesQuery(user.id, p));
