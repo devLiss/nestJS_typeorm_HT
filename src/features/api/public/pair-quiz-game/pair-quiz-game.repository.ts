@@ -230,20 +230,22 @@ where "player" = $1
 
   async getTopUsers(tuDto: TopUsersDto) {
     const offset = (tuDto.pageNumber - 1) * tuDto.pageSize;
-    const orderBy = tuDto.sort.join(',');
+    //const orderBy = tuDto.sort.join(',');
+    const tArr = tuDto.sort.map((item) => {
+      const tt = item.split(' ');
+      return `"${tt[0]}" ${tt[1]}`;
+    });
+    const orderBy = tArr.join(',');
+    console.log(orderBy);
     const query = `select  sum(score) as "sumScore", round (avg(score)::numeric, 2)  as "avgScores", count(*) as "gamesCount",
        (select count(*) from score where  player = u.id and winner = 1)as "winsCount",
        (select count(*) from score where player = u.id and winner = 0)as "lossesCount",
        (select count(*) from score where player = u.id and winner = -1)as "drawsCount",
        json_build_object('id', u.id , 'login',u.login) as "player"
-      from score s left join users u on s.player = u.id group by u.id order by $1 limit $2 offset $3
+      from score s left join users u on s.player = u.id group by u.id order by ${orderBy} limit $1 offset $2
       `;
     console.log(query);
-    const result = await this.dataSource.query(query, [
-      orderBy,
-      tuDto.pageSize,
-      offset,
-    ]);
+    const result = await this.dataSource.query(query, [tuDto.pageSize, offset]);
 
     const totalQuery = `select count(*) over ()
       from score s left join users u on s.player = u.id group by u.id limit 1`;
