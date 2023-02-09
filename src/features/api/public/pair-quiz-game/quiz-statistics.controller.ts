@@ -11,6 +11,9 @@ export class QuizStatisticsController {
 
   @Get('top')
   async getTop(@Query() tuDto: TopUsersDto) {
+    if (typeof tuDto.sort === 'string') {
+      tuDto.sort = [tuDto.sort];
+    }
     return this.queryBus.execute(new GetTopUsersQuery(tuDto));
   }
   @Get('my-statistic')
