@@ -248,11 +248,22 @@ where "player" = $1
     console.log(query);
     const result = await this.dataSource.query(query, [tuDto.pageSize, offset]);
 
+    const temp = result.map((item) => {
+      return {
+        gamesCount: +item.gamesCount,
+        winsCount: +item.winsCount,
+        lossesCount: +item.lossesCount,
+        drawsCount: +item.drawsCount,
+        sumScore: +item.sumScore,
+        avgScores: +item.avgScores,
+        player: item.player,
+      };
+    });
     const totalQuery = `select count(*) over ()
       from score s left join users u on s.player = u.id group by u.id limit 1`;
 
     const totalResult = await this.dataSource.query(totalQuery);
-    return { total: totalResult[0].count, items: result };
+    return { total: totalResult[0].count, items: temp };
   }
   async deleteAll() {
     await this.dataSource.query(`delete from quiz_progress`);
