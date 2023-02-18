@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppService } from './app.service';
-
+import { ScheduleModule } from '@nestjs/schedule';
 import * as mongoose from 'mongoose';
 import { EmailModule } from './emailManager/emailModule';
 
@@ -184,9 +184,11 @@ const controllers = [
   PairQuizGameController,
   QuizStatisticsController,
 ];
+
 @Module({
   imports: [
     CqrsModule,
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
