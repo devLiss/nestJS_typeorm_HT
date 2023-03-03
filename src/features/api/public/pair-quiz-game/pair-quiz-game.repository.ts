@@ -117,11 +117,22 @@ export class PairQuizGameRepository {
     userProgress.addedAt = new Date();
 
     return this.dataSource.manager.save(userProgress);
-    /*await this.dataSource.manager.findOne(QuizProgress, { where: {
-        gameId: gameId,
-        playerId: userId,
-      }
-    })*/
+  }
+
+  async updateProgressForFinish(
+    progress: Array<{
+      userId: string;
+      gameId: string;
+      questionId: string;
+      status: string;
+    }>,
+  ) {
+    return this.dataSource
+      .createQueryBuilder()
+      .insert()
+      .into(QuizProgress)
+      .values(progress)
+      .execute();
   }
 
   async getGameById(gameId: string, userId: string) {
@@ -155,7 +166,6 @@ export class PairQuizGameRepository {
     const result = await this.dataSource.query(query);
     return result ? result[0] : null;
   }
-
   async getMyGamesInfo(userId: string, pagination: PaginatingQueryDto) {
     const offset = (pagination.pageNumber - 1) * pagination.pageSize;
     const orderBy =
@@ -238,9 +248,9 @@ where "player" = $1
     const orderBy = tArr.join(',');
     console.log(orderBy);
     const query = `select  count(*) as "gamesCount", 
-       (select count(*) from score where  player = u.id and winner = 1)as "winsCount",
-       (select count(*) from score where player = u.id and winner = 0)as "lossesCount",
-       (select count(*) from score where player = u.id and winner = -1)as "drawsCount",
+       (select count(*) from score where  player = u.id and winner = 1) as "winsCount",
+       (select count(*) from score where player = u.id and winner = 0) as "lossesCount",
+       (select count(*) from score where player = u.id and winner = -1) as "drawsCount",
        sum(score) as "sumScore", round (avg(score)::numeric, 2)  as "avgScores",
        json_build_object('id', u.id , 'login',u.login) as "player"
       from score s left join users u on s.player = u.id group by u.id order by ${orderBy} limit $1 offset $2

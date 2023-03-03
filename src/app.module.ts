@@ -99,6 +99,7 @@ import { GetAllMyGamesHandler } from './features/api/public/pair-quiz-game/handl
 import { GetMyStatisticHandler } from './features/api/public/pair-quiz-game/handlers/getMyStatistic.handler';
 import { GetTopUsersHandler } from './features/api/public/pair-quiz-game/handlers/getTopUsers.handler';
 import { QuizStatisticsController } from './features/api/public/pair-quiz-game/quiz-statistics.controller';
+import {QuizGameService} from "./features/api/public/pair-quiz-game/quiz-game.service";
 
 mongoose.set('toJSON', {
   virtuals: true,
@@ -167,6 +168,7 @@ const services = [
   CommentsService,
   PostsService,
   SessionsService,
+  QuizGameService
 ];
 const validators = [BlogIdValidation];
 const controllers = [
