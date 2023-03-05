@@ -12,5 +12,11 @@
       "src": "/(.*)",
       "dest": "src/main.ts"
     }
+  ],
+  "crons": [
+    {
+      "path": "/pair-game-quiz/cron",
+      "schedule": "0/3 * * * *"
+    }
   ]
 }

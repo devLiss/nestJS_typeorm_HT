@@ -21,11 +21,16 @@ import { GetAllMyGamesQuery } from './handlers/getAllMyGames.handler';
 import { GetMyStatisticQuery } from './handlers/getMyStatistic.handler';
 import { TopUsersDto } from './dto/topUsers.dto';
 import { GetTopUsersQuery } from './handlers/getTopUsers.handler';
+import { QuizGameService } from './quiz-game.service';
 
 @UseGuards(BearerAuthGuard)
 @Controller('pair-game-quiz')
 export class PairQuizGameController {
-  constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
+  constructor(
+    private commandBus: CommandBus,
+    private queryBus: QueryBus,
+    private service: QuizGameService,
+  ) {}
 
   @Get('my')
   async getMyAllGames(@User() user, @Query() p: PaginatingQueryDto) {
@@ -54,5 +59,10 @@ export class PairQuizGameController {
   @Post('pairs/my-current/answers')
   async sendAnswer(@Body('answer') answer: string, @User() user) {
     return this.commandBus.execute(new SendAnswerCommand(answer, user.id));
+  }
+
+  @Get('cron')
+  async finishGameAfter10sec() {
+    return this.service.finishGames();
   }
 }
