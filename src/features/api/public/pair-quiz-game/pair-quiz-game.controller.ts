@@ -60,9 +60,4 @@ export class PairQuizGameController {
   async sendAnswer(@Body('answer') answer: string, @User() user) {
     return this.commandBus.execute(new SendAnswerCommand(answer, user.id));
   }
-
-  @Get('cron')
-  async finishGameAfter10sec() {
-    return this.service.finishGames();
-  }
 }
