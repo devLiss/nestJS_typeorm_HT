@@ -121,10 +121,10 @@ export class PairQuizGameRepository {
 
   async updateProgressForFinish(
     progress: Array<{
-      userId: string;
+      playerId: string;
       gameId: string;
       questionId: string;
-      status: string;
+      answerStatus: string;
     }>,
   ) {
     return this.dataSource
@@ -206,7 +206,6 @@ export class PairQuizGameRepository {
     const game = await this.dataSource.manager.findOne(QuizPair, {
       where: { id: gameId },
     });
-
     game.finishGameDate = new Date();
     game.status = 'Finished';
 
@@ -215,6 +214,24 @@ export class PairQuizGameRepository {
   async getGameByUId(userId: string) {
     return this.dataSource.query(
       `select * from quiz_pair where ("player1Id" = '${userId}' or "player2Id" = '${userId}')`,
+    );
+  }
+
+  async getGameWhereOnePlayerFinished() {
+    const query = `select  count(qp.*) as count, qp."gameId" ,  qp."playerId" as player        from quiz_progress qp 
+         join quiz_pair qp3 on qp."gameId" = qp3.id 
+        where qp3.status = 'Active' 
+        group by qp."gameId" , qp."playerId" 
+        having count(qp.*) < 5 and (select count(*)  from quiz_progress q where q."gameId" =qp."gameId" and q."playerId" <>qp."playerId"  ) = 5`;
+
+    const result = await this.dataSource.query(query);
+    return result;
+  }
+
+  async getQuestionsForGame(offset: number, gameId: string) {
+    console.log(gameId)
+    return this.dataSource.query(
+      `select * from quiz_pair_questions_questions where "quizPairId" = '${gameId}' offset ${offset}`,
     );
   }
 
