@@ -16,7 +16,7 @@
   "crons": [
     {
       "path": "/pair-game-quiz/cron",
-      "schedule": "0/3 * * * *"
+      "schedule": "*/3 * * * *"
     }
   ]
 }
