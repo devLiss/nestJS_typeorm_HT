@@ -6,7 +6,7 @@ import { PairQuizGameRepository } from './pair-quiz-game.repository';
 export class QuizGameService {
   constructor(private repo: PairQuizGameRepository) {}
 
-  @Cron('*/5 * * * * *')
+  @Cron('*/2 * * * * *')
   async finishGames() {
     console.log('Cron finish Games');
 
@@ -36,7 +36,7 @@ export class QuizGameService {
       }
 
       await this.repo.updateProgressForFinish(progressArr);
-      await this.repo.finishGame(data.gameId)
+      await this.repo.finishGame(data.gameId);
     }
   }
 }
