@@ -223,7 +223,7 @@ export class PairQuizGameRepository {
 from quiz_progress qp 
           join quiz_pair qp3 on qp."gameId" = qp3.id 
         where qp3.status = 'Active' 
-        group by qp."gameId" , qp3."player2Id" ,qp."playerId"
+        group by qp."gameId" , qp3."player2Id" ,qp3."player1Id" ,qp."playerId"
        having count(qp.*) = 5`; /*`select  count(qp.*) as count, qp."gameId" ,  qp."playerId" as player  from quiz_progress qp
          join quiz_pair qp3 on qp."gameId" = qp3.id
         where qp3.status = 'Active'
