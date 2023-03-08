@@ -26,9 +26,11 @@ export class GetQuizByIdHandler implements IQueryHandler<GetQuizByIdQuery> {
       const lastQuestionFP = new Date(
         firstPlayer.answers[firstPlayer.answers.length - 1].addedAt,
       ).getTime();
-      const lastQuestionSp = new Date(
-        secondPlayer.answers[secondPlayer.answers.length - 1].addedAt,
-      ).getTime();
+      const lastQuestionSp = secondPlayer.answers.length
+        ? new Date(
+            secondPlayer.answers[secondPlayer.answers.length - 1].addedAt,
+          ).getTime()
+        : 0;
 
       if (
         lastQuestionFP < lastQuestionSp &&

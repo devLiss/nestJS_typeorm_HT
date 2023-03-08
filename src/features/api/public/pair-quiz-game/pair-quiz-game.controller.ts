@@ -26,11 +26,7 @@ import { QuizGameService } from './quiz-game.service';
 @UseGuards(BearerAuthGuard)
 @Controller('pair-game-quiz')
 export class PairQuizGameController {
-  constructor(
-    private commandBus: CommandBus,
-    private queryBus: QueryBus,
-
-  ) {}
+  constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
   @Get('my')
   async getMyAllGames(@User() user, @Query() p: PaginatingQueryDto) {
@@ -45,7 +41,12 @@ export class PairQuizGameController {
 
   @Get('pairs/:id')
   async getGameById(@Param() ggDto: GetGameByIdDto, @User() user) {
-    return this.queryBus.execute(new GetQuizByIdQuery(ggDto.id, user.id));
+    return this.queryBus.execute(
+      new GetQuizByIdQuery(
+        ggDto.id,
+        user.id,
+      ),
+    );
   }
 
   @HttpCode(200)
