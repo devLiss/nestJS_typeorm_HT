@@ -218,17 +218,22 @@ export class PairQuizGameRepository {
   }
 
   async getGameWhereOnePlayerFinished() {
-    const query = `select  count(qp.*) as count, qp."gameId" ,  qp."playerId" as player  from quiz_progress qp 
-         join quiz_pair qp3 on qp."gameId" = qp3.id 
+    const query = `select  count(qp.*) as count, qp."gameId" , qp3."player2Id" 
+from quiz_progress qp 
+          join quiz_pair qp3 on qp."gameId" = qp3.id 
         where qp3.status = 'Active' 
-        group by qp."gameId" , qp."playerId" `;
-//--having count(qp.*) < 5 and (select count(*)  from quiz_progress q where q."gameId" =qp."gameId" and q."playerId" <>qp."playerId"  ) = 5
+        group by qp."gameId" , qp3."player2Id" ,qp."playerId"
+       having count(qp.*) = 5`; /*`select  count(qp.*) as count, qp."gameId" ,  qp."playerId" as player  from quiz_progress qp
+         join quiz_pair qp3 on qp."gameId" = qp3.id
+        where qp3.status = 'Active'
+        group by qp."gameId" , qp."playerId" `;*/
+    //--having count(qp.*) < 5 and (select count(*)  from quiz_progress q where q."gameId" =qp."gameId" and q."playerId" <>qp."playerId"  ) = 5
     const result = await this.dataSource.query(query);
     return result;
   }
 
   async getQuestionsForGame(offset: number, gameId: string) {
-    console.log(gameId)
+    console.log(gameId);
     return this.dataSource.query(
       `select * from quiz_pair_questions_questions where "quizPairId" = '${gameId}' offset ${offset}`,
     );
