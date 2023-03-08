@@ -18,6 +18,7 @@ export class QuizGameService {
         gameId: string;
         questionId: string;
         answerStatus: string;
+        addedAt: Date;
       }> = [];
       const data = res[i];
       console.log('DATA ', data);
@@ -32,6 +33,7 @@ export class QuizGameService {
           gameId: data.gameId,
           questionId: questions[j].questionsId,
           answerStatus: 'Incorrect',
+          addedAt: new Date()
         });
       }
 

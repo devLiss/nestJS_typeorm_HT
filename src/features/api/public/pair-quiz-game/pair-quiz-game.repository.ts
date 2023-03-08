@@ -125,6 +125,7 @@ export class PairQuizGameRepository {
       gameId: string;
       questionId: string;
       answerStatus: string;
+      addedAt: Date;
     }>,
   ) {
     return this.dataSource
