@@ -29,7 +29,7 @@ export class QuizGameService {
 
       for (let j = 0; j < questions.length; j++) {
         progressArr.push({
-          playerId: data.player,
+          playerId: data.player2Id,
           gameId: data.gameId,
           questionId: questions[j].questionsId,
           answerStatus: 'Incorrect',
@@ -37,7 +37,7 @@ export class QuizGameService {
         });
       }
 
-      await this.repo.updateProgressForFinish(progressArr);
+      console.log(await this.repo.updateProgressForFinish(progressArr));
       await this.repo.finishGame(data.gameId);
     }
   }
