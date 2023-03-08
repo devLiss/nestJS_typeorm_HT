@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {Cron, CronExpression} from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { PairQuizGameRepository } from './pair-quiz-game.repository';
 
 @Injectable()
