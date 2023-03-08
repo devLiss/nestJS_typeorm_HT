@@ -221,9 +221,8 @@ export class PairQuizGameRepository {
     const query = `select  count(qp.*) as count, qp."gameId" ,  qp."playerId" as player  from quiz_progress qp 
          join quiz_pair qp3 on qp."gameId" = qp3.id 
         where qp3.status = 'Active' 
-        group by qp."gameId" , qp."playerId" 
-        --having count(qp.*) < 5 and (select count(*)  from quiz_progress q where q."gameId" =qp."gameId" and q."playerId" <>qp."playerId"  ) = 5`;
-
+        group by qp."gameId" , qp."playerId" `;
+//--having count(qp.*) < 5 and (select count(*)  from quiz_progress q where q."gameId" =qp."gameId" and q."playerId" <>qp."playerId"  ) = 5
     const result = await this.dataSource.query(query);
     return result;
   }
