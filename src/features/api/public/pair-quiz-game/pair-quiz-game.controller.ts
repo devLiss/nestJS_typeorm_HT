@@ -29,7 +29,7 @@ export class PairQuizGameController {
   constructor(
     private commandBus: CommandBus,
     private queryBus: QueryBus,
-    private service: QuizGameService,
+
   ) {}
 
   @Get('my')
@@ -59,10 +59,5 @@ export class PairQuizGameController {
   @Post('pairs/my-current/answers')
   async sendAnswer(@Body('answer') answer: string, @User() user) {
     return this.commandBus.execute(new SendAnswerCommand(answer, user.id));
-  }
-
-  @Get('cron')
-  async runCron(){
-    return this.service.finishGames()
   }
 }
