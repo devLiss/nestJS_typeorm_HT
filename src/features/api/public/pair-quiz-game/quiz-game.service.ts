@@ -6,7 +6,7 @@ import { PairQuizGameRepository } from './pair-quiz-game.repository';
 export class QuizGameService {
   constructor(private repo: PairQuizGameRepository) {}
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
+ // @Cron(CronExpression.EVERY_5_SECONDS)
   async finishGames() {
     console.log('Cron finish Games');
 
