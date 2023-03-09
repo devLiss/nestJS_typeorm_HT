@@ -18,11 +18,6 @@ import { GetCurrentGameQuery } from './handlers/getCurrentGame.handler';
 import { GetGameByIdDto } from './dto/getGameById.dto';
 import { PaginatingQueryDto } from '../../bloggers/blogs/dto/paginatingQuery.dto';
 import { GetAllMyGamesQuery } from './handlers/getAllMyGames.handler';
-import { GetMyStatisticQuery } from './handlers/getMyStatistic.handler';
-import { TopUsersDto } from './dto/topUsers.dto';
-import { GetTopUsersQuery } from './handlers/getTopUsers.handler';
-import { QuizGameService } from './quiz-game.service';
-
 @UseGuards(BearerAuthGuard)
 @Controller('pair-game-quiz')
 export class PairQuizGameController {
