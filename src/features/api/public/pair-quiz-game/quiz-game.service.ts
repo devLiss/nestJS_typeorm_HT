@@ -6,12 +6,12 @@ import { PairQuizGameRepository } from './pair-quiz-game.repository';
 export class QuizGameService {
   constructor(private repo: PairQuizGameRepository) {}
 
- // @Cron(CronExpression.EVERY_5_SECONDS)
+  // @Cron(CronExpression.EVERY_5_SECONDS)
   async finishGames() {
     console.log('Cron finish Games');
 
     const res = await this.repo.getGameWhereOnePlayerFinished();
-    console.log(res)
+    console.log(res);
     for (let i = 0; i < res.length; i++) {
       const progressArr: Array<{
         playerId: string;
@@ -22,21 +22,27 @@ export class QuizGameService {
       }> = [];
       const data = res[i];
       console.log('DATA ', data);
-      const questions = await this.repo.getQuestionsForGame(
-        data.count2,
-        data.gameId,
-      );
+
+      let c = data.count;
+      let player = data.player1Id;
+
+      if (data.count2 === 5) {
+        c = data.count2;
+        player = data.player2Id;
+      }
+
+      const questions = await this.repo.getQuestionsForGame(c, data.gameId);
 
       for (let j = 0; j < questions.length; j++) {
         progressArr.push({
-          playerId: data.player2Id,
+          playerId: player,
           gameId: data.gameId,
           questionId: questions[j].questionsId,
           answerStatus: 'Incorrect',
-          addedAt: new Date()
+          addedAt: new Date(),
         });
       }
-      console.log(progressArr)
+      console.log(progressArr);
       console.log(await this.repo.updateProgressForFinish(progressArr));
       await this.repo.finishGame(data.gameId);
     }
