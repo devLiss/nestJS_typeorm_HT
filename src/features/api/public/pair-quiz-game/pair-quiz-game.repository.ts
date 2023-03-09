@@ -220,7 +220,7 @@ export class PairQuizGameRepository {
   }
 
   async getGameWhereOnePlayerFinished() {
-    const query = `select  count(qp.*) as count, (select count(*) from quiz_progress qx where qx."playerId" = qp3."player2Id" and qx."gameId" = qp."gameId" ) as count2, qp."gameId" , qp3."player2Id", qp3."player1Id" 
+    const query = `select  count(qp.*) as count, (select count(*) from quiz_progress qx where qx."playerId" = qp3."player1Id" and qx."gameId" = qp."gameId" ) as count2, qp."gameId" ,qp3."player1Id" 
 from quiz_progress qp 
           join quiz_pair qp3 on qp."gameId" = qp3.id 
         where qp3.status = 'Active' 
