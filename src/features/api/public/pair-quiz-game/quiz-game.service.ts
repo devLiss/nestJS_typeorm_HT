@@ -27,7 +27,7 @@ export class QuizGameService {
 
       for (let j = 0; j < questions.length; j++) {
         progressArr.push({
-          playerId: data.player2Id,
+          playerId: data.player1Id,
           gameId: data.gameId,
           questionId: questions[j].questionsId,
           answerStatus: 'Incorrect',
