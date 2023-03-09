@@ -11,7 +11,7 @@ export class QuizGameService {
     console.log('Cron finish Games');
 
     const res = await this.repo.getGameWhereOnePlayerFinished();
-
+    console.log(res)
     for (let i = 0; i < res.length; i++) {
       const progressArr: Array<{
         playerId: string;
@@ -36,9 +36,9 @@ export class QuizGameService {
           addedAt: new Date()
         });
       }
-
+      console.log(progressArr)
       console.log(await this.repo.updateProgressForFinish(progressArr));
-      await this.repo.finishGame(data.gameId);
+      //await this.repo.finishGame(data.gameId);
     }
   }
 }
