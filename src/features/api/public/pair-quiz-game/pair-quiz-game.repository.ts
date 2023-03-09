@@ -154,13 +154,13 @@ export class PairQuizGameRepository {
       (select coalesce( array_to_json(array_agg( row_to_json(t1))),'[]')  as answers from (
       select qpr."questionId", qpr."answerStatus", to_char (qpr."addedAt"::timestamp with time zone at time zone 'Etc/UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') as "addedAt" from quiz_progress qpr where "playerId" = qp."player1Id" and "gameId" = '${gameId}' order by qpr."addedAt" asc) t1) as "answers",
       (select row_to_json(t2) as player from (select id, login from users u where id = qp."player1Id") t2) as "player",
-      (select count(*) as "score" from quiz_progress qpr where "playerId" = qp."player1Id" and "answerStatus" = 'Correct'  and "gameId" = '${gameId}') as "score"
+      (select coalesce(sum(score),0) from score where "player" = qp."player1Id" and "gameId" = '${gameId}') as "score"
        )x3) as "firstPlayerProgress", 
       (select row_to_json(x3)  from (select * from
       (select coalesce( array_to_json(array_agg( row_to_json(t1))),'[]') as answers from (
       select qpr."questionId", qpr."answerStatus",to_char (qpr."addedAt"::timestamp with time zone at time zone 'Etc/UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') as "addedAt" from quiz_progress qpr where "playerId" = qp."player2Id" and "gameId" = '${gameId}' order by qpr."addedAt" asc) t1) as "answers",
       (select row_to_json(t2) as player from (select id, login from users u where id = qp."player2Id") t2) as "player",
-      (select count(*) as "score" from quiz_progress qpr where "playerId" = qp."player2Id" and "answerStatus" = 'Correct'  and "gameId" = '${gameId}') as "score"
+      (select coalesce(sum(score),0) from score where "player" = qp."player2Id" and "gameId" = '${gameId}') as "score"
        )x3) as "secondPlayerProgress"
       
       from quiz_pair qp where id = '${gameId}'`;
