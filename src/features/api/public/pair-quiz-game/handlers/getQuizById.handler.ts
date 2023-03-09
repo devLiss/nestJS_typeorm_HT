@@ -19,7 +19,7 @@ export class GetQuizByIdHandler implements IQueryHandler<GetQuizByIdQuery> {
 
     const findedGame = await this.repo.getCurrentGameInfo(query.id);
 
-    if (findedGame && findedGame.status == 'Finished') {
+    /*if (findedGame && findedGame.status == 'Finished') {
       const firstPlayer = findedGame.firstPlayerProgress;
       const secondPlayer = findedGame.secondPlayerProgress;
 
@@ -45,7 +45,7 @@ export class GetQuizByIdHandler implements IQueryHandler<GetQuizByIdQuery> {
           findedGame.secondPlayerProgress.score++;
         }
       }
-    }
+    }*/
     return findedGame;
   }
 }
