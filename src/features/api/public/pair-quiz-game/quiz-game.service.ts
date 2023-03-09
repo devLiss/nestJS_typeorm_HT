@@ -38,7 +38,7 @@ export class QuizGameService {
       }
       console.log(progressArr)
       console.log(await this.repo.updateProgressForFinish(progressArr));
-      //await this.repo.finishGame(data.gameId);
+      await this.repo.finishGame(data.gameId);
     }
   }
 }
