@@ -128,6 +128,7 @@ export class PairQuizGameRepository {
       addedAt: Date;
     }>,
   ) {
+    console.log(progress)
     return this.dataSource
       .createQueryBuilder()
       .insert()
@@ -219,7 +220,7 @@ export class PairQuizGameRepository {
   }
 
   async getGameWhereOnePlayerFinished() {
-    const query = `select  count(qp.*) as count, qp."gameId" , qp3."player2Id" 
+    const query = `select  count(qp.*) as count, (select count(*) from quiz_progress qx where qx."playerId" = qp3."player2Id" and qx."gameId" = qp."gameId" ) as count2, qp."gameId" , qp3."player2Id" 
 from quiz_progress qp 
           join quiz_pair qp3 on qp."gameId" = qp3.id 
         where qp3.status = 'Active' 

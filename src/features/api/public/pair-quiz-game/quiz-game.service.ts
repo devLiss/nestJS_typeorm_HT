@@ -23,7 +23,7 @@ export class QuizGameService {
       const data = res[i];
       console.log('DATA ', data);
       const questions = await this.repo.getQuestionsForGame(
-        data.count,
+        data.count2,
         data.gameId,
       );
 
@@ -38,7 +38,7 @@ export class QuizGameService {
       }
 
       console.log(await this.repo.updateProgressForFinish(progressArr));
-      await this.repo.finishGame(data.gameId);
+      //await this.repo.finishGame(data.gameId);
     }
   }
 }
